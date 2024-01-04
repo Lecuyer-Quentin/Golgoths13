@@ -6,6 +6,9 @@ import Images from "next/image";
 import { MdDeleteForever } from "react-icons/md";
 import { Article } from "../../../../../../types";
 import { createArticle } from "../../../../../libs/articles";
+import axios from "axios";
+import { useRef } from "react";
+
 const tagsArray = [
     {label: '#teams', value: '#teams'},
     {label: '#club', value: '#club'},
@@ -16,6 +19,8 @@ const tagsArray = [
 
 
 export default function AddArticle() {
+    const refImages = useRef<HTMLInputElement>(null);
+    const refCover = useRef<HTMLInputElement>(null);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -45,17 +50,17 @@ export default function AddArticle() {
     }, [ setContent ])
 
     const handleCoverChange : ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-        const input = e.target as HTMLInputElement;
+        const input = refCover.current as HTMLInputElement;
         const file = input.files?.[0];
         {file && setCoverPreview([URL.createObjectURL(file)])}
-        {file && setCover([file.name])}
+        {file && setCover([`/api/uploads/${file.name}`])}
     }, [ setCover, setCoverPreview ])
 
     const handleImagesChange : ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-        const input = e.target as HTMLInputElement;
+        const input = refImages.current as HTMLInputElement;
         const files = Array.from(input.files ?? []);
         {files && setPreviewImages(prevImages => [...prevImages, ...files.map(file => URL.createObjectURL(file))])}
-        {files && setImages(prevImages => [...prevImages, ...files.map(file => file.name)])}
+        {files && setImages(prevImages => [...prevImages, ...files.map(file => `/api/uploads/${file.name}`)])}
     }, [ setPreviewImages, setImages ])
 
     const handleImageRemove : MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
@@ -80,21 +85,30 @@ export default function AddArticle() {
     const handleAddArticle : MouseEventHandler<HTMLButtonElement> = async (e) => {
         e.preventDefault();
         try {
-            if (title && description) {
+
+            const formDataImages = new FormData();
+            const imagesFile = Array.from(refImages.current?.files ?? []);
+            imagesFile.forEach(file => formDataImages.append(file.name, file));
+            const coverFile = Array.from(refCover.current?.files ?? []);
+            coverFile.forEach(file => formDataImages.append('cover', file));
+
+            await axios.post('/api/upload', formDataImages);
+
+           // if (title && description) {
                 const formData = new FormData();
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('content', content);
-                {cover && formData.append('cover', cover[0]);}
                 {tags && tags.forEach(tag => formData.append('tags', tag));}
-                {images && images.forEach(image => formData.append('images', image));}
-
-                await createArticle(formData )
+                formData.append('cover', cover[0]);
+                formData.append('images', images.join(','));
+                
+                await createArticle(formData)
 
                 resetState();
                 onOpenChange();
                 window.location.reload();
-            }
+          //  }
         } catch (error) {
             console.log(error);
         }
@@ -179,6 +193,8 @@ export default function AddArticle() {
                     <Input 
                         //label="Cover" 
                         type="file"
+                        ref={refCover}
+                        name="cover"
                         onChange={handleCoverChange}
                       // required
 
@@ -192,7 +208,9 @@ export default function AddArticle() {
 
                     <Input 
                         //label="Images" 
-                        type="file" 
+                        type="file"
+                        ref={refImages}
+                        name="images"
                         multiple
                         onChange={handleImagesChange}
                     />
