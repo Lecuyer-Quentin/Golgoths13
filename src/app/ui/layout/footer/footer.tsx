@@ -90,7 +90,7 @@ export default function Footer() {
             </ul>
 
             <div className="flex-column justify-center align-center text-yellow-400 text-sm">
-                <p className="text-center">© 2023 Golgoths 13</p>
+                <p className="text-center">© 2024 Golgoths 13</p>
                 <p className="text-center">All rights reserved</p>
             </div>
         </div>
