@@ -33,6 +33,7 @@ Open [http://localhost:3000] in your browser to view the application.
 
 
 ## Project Structure
+
 plaintext
 Golgoths13/
 |-- public/
@@ -55,6 +56,24 @@ Golgoths13/
 |-- README.md
 
 public: Contains static assets like images and icons.
+
+
+Project Structure
+plaintext
+Copy code
+golgoths-13/
+|-- public/
+|-- src/
+|   |-- components/
+|   |-- pages/
+|   |-- styles/
+|   |-- types/
+|-- .gitignore
+|-- next.config.js
+|-- package.json
+|-- tsconfig.json
+|-- README.md
+
 
 
 
