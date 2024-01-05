@@ -1,5 +1,4 @@
 
-
 ## Golgoths 13 Project
 
 
@@ -29,51 +28,6 @@ npm run dev
 ```
 
 Open [http://localhost:3000] in your browser to view the application.
-
-
-
-## Project Structure
-
-plaintext
-Golgoths13/
-|-- public/
-|-- src/
-|   |-- app/
-|   |   |-- api/
-|   |   |-- articles/
-|   |   |-- dashboard/
-|   |   |-- news/
-|   |   |-- ui/
-|   |   |-- layout.tsx
-|   |   |-- page.tsx
-|   |   |-- providers.tsx
-|   |-- libs/
-|   |-- models/
-|-- .gitignore
-|-- next.config.js
-|-- package.json
-|-- tsconfig.json
-|-- README.md
-
-public: Contains static assets like images and icons.
-
-
-Project Structure
-plaintext
-Copy code
-golgoths-13/
-|-- public/
-|-- src/
-|   |-- components/
-|   |-- pages/
-|   |-- styles/
-|   |-- types/
-|-- .gitignore
-|-- next.config.js
-|-- package.json
-|-- tsconfig.json
-|-- README.md
-
 
 
 
