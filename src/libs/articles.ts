@@ -7,21 +7,21 @@ export async function getSortedArticlesData() {
         const articles = res.data.articles;
         const sortedArticles = articles.sort((a : Article, b : Article) => {
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }
-        );
+        });
         return sortedArticles;
-
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function getArticleData(id : string) {
+export async function getArticleDataById(id : string) {
     try {
-        const res = await axios.get(`/api/articles/${id}`);
-        const article = res.data.article;
+        const res = await axios.get('/api/articles');
+        const articles = res.data.articles;
+        const article = articles.find((article : Article) => article._id === id);
         return article;
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error);
     }
 }
@@ -40,7 +40,6 @@ export async function createArticle(formData : FormData) {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            
         });
     } catch (error) {
         console.log(error);
