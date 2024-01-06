@@ -2,23 +2,31 @@
 
 import Card from '../../components/card/card';
 import { useEffect, useState } from 'react';
-
 import { Article } from "../../../../../types";
 import { getSortedArticlesData } from '@/libs/articles';
 
 
 export default function Banner() {
- 
     const [bannerData, setBannerData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await getSortedArticlesData();
-            setBannerData(data.slice(0,3));
-        };
-        fetchData();
+        getSortedArticlesData()
+            .then((res) => {
+                res = res.slice(0, 3);
+                setBannerData(res);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                setError(err);
+                setIsLoading(false);
+            })
     }, []);
 
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>Error...</div>
+    
     const renderContent = () => {
         return bannerData.map((article : Article) => {
             return <Card key={article._id} data={article} />

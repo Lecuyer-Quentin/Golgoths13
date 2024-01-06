@@ -5,20 +5,33 @@ import { getSortedArticlesData } from '@/libs/articles'
 import Carrousel from '../../components/carrousel/carrousel';
 
 export default function Hero() {
-
     const [carrouselData, setCarrouselData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await getSortedArticlesData();
-            setCarrouselData(data.slice(0,3));
-        };
-        fetchData();
+        getSortedArticlesData()
+            .then((res) => {
+                res = res.slice(0, 3);
+                setCarrouselData(res);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                setError(err);
+                setIsLoading(false);
+            })
     }, []);
 
-  return (
-    <section className="w-full relative flex justify-center items-center border-1 border-white">
-        <Carrousel data={carrouselData} />
-    </section>
-  )
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>Error...</div>
+
+    const renderCarrousel = () => {
+      return (
+        <section className="w-full relative flex justify-center items-center mt-20 mb-20">
+          <Carrousel data={carrouselData} />
+        </section>
+      )
+    }
+
+    return renderCarrousel();
 }
