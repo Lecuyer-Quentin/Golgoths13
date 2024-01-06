@@ -12,8 +12,8 @@ export default function NewsLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className='flex flex-col w-full h-screen text-gray-800'>
+    <main className='flex flex-col w-full h-full px-20 py-10 min-h-screen'>
         {children}
-    </div>
+    </main>
   )
 }

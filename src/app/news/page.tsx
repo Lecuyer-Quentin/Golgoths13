@@ -1,7 +1,13 @@
-import React from 'react'
+import LastArticles from "../ui/news/lastArticles/lastArticles"
+import LastNews from "../ui/news/lastNews/lastNews"
+import LastVideo from "../ui/news/lastVideo/lastVideo"
 
 export default function News() {
   return (
-    <main>News</main>
+    <>
+      <LastNews />
+      <LastVideo />
+      <LastArticles />
+    </>
   )
 }
