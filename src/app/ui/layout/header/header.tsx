@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <header>
         <Navbar
-            className="bg-black text-yellow-400"
+            className="primaryColor text-yellow-400"
             aria-label="Site navigation"
             shouldHideOnScroll={true} onMenuOpenChange={toggleActive}>
 

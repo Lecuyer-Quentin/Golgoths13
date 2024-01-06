@@ -67,7 +67,7 @@ const footerLink : FooterLink[] = [
 
 export default function Footer() {
   return (
-    <footer className="flex-column justify-center align-center bg-black w-full">
+    <footer className="flex-column justify-center align-center w-full primaryColor">
       
         <div className="relative">
             <div className="flex justify-center before:bg-yellow-400 before:h-1 before:absolute before:bottom-20 before:left-0 before:content-[''] before:z-10 before:w-1/4 before:opacity-50 before:rounded-full before:shadow-2xl after:bg-yellow-400 after:h-1 after:absolute after:bottom-20 after:right-0 after:content-[''] after:z-10 after:w-1/4 after:opacity-50 after:rounded-full">
