@@ -12,6 +12,7 @@ export default function ArticleItem({ article }: Props) {
     <li className='flex flex-row'>
         <p>{title}</p>
         <p>{description}</p>
+        <p>{tags}</p>
     </li>
     )
 }

@@ -101,7 +101,7 @@ export default function AddArticle() {
                 formData.append('content', content);
                 {tags && tags.forEach(tag => formData.append('tags', tag));}
                 formData.append('cover', cover[0]);
-                formData.append('images', images.join(','));
+                {images && images.forEach(image => formData.append('images', image));}
                 
                 await createArticle(formData)
 

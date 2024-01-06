@@ -10,26 +10,44 @@ import UpdateArticle from '../features/updateArticle';
 
 export default function ArticlesList() {
     const [allArticlesData, setAllArticlesData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await getSortedArticlesData();
-            setAllArticlesData(data);
-        };
-        fetchData();
+        setLoading(true);
+        getSortedArticlesData()
+        .then((articles) => {
+            setAllArticlesData(articles);
+            setLoading(false);
+        })
+        .catch((e) => {
+            setError(e);
+            setLoading(false);
+        })
     }, []);
 
-    return (
-            <ul className='flex flex-col space-y-4 mt-4 border-2 border-gray-200 mx-4'>
-                {allArticlesData.map((article : Article) => (
-                    <div key={article._id} className='flex flex-row justify-between mx-4'>
-                        <ArticleItem  article={article} />
-                        <div className='flex flex-row space-x-4'>
-                            <DeleteArticle id={article._id} />
-                            <UpdateArticle article={article} />
-                        </div>
-                    </div>
-                ))}
-            </ul>
-    )
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>Error...</div>
+
+    const renderArticles = allArticlesData.map((article : Article) => {
+        return (
+            <li key={article._id} className='flex flex-row justify-between mx-4'>
+                <ArticleItem article={article} />
+                <div className='flex flex-row space-x-4'>
+                    <DeleteArticle id={article._id} />
+                    <UpdateArticle article={article} />
+                </div>
+            </li>
+        )}
+    );
+
+    const renderArticlesList = (
+        <ul className='flex flex-col space-y-4 mt-4 border-2 border-gray-200 mx-4'>
+            {renderArticles}
+        </ul>
+    );
+
+    
+    return renderArticlesList;
 }
