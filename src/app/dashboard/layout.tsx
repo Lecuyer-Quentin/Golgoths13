@@ -13,7 +13,7 @@ export default function DashLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className='flex flex-row h-screen w-screen bg-gray-100'>
+    <div className='flex flex-row h-screen bg-gray-100'>
             <Sidebar />
         <div className='flex flex-col w-full h-screen text-gray-800'>
             <Navbar />

@@ -4,7 +4,7 @@ import TeamsPage from './teams/page'
 
 export default function DashboardPage() {
   return (
-    <main className="flex w-full h-full">
+    <main className="flex flex-col w-full h-full lg:flex-row ">
       <section className="flex flex-col w-full h-full bg-gray-300">
         <ArticlesPage />
         <UsersPage />
