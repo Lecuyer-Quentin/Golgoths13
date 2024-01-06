@@ -18,15 +18,29 @@ export default function CarrouselSm({data}: Props) {
         infinite: true,
         speed: 2500,
         slidesToShow: 4,
-        arrows: false,
+        arrows: true,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
         pauseOnHover: true,
         responsive: [
-
+           
+            {
+             breakpoint: 1280,
+             settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+             }
+           },
             {
               breakpoint: 1024,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 900,
               settings: {
                 slidesToShow: 2,
                 slidesToScroll: 1,
@@ -36,7 +50,7 @@ export default function CarrouselSm({data}: Props) {
             {
               breakpoint: 768,
               settings: {
-                slidesToShow: 2,
+                slidesToShow: 1,
                 slidesToScroll: 1,
               }
             },
@@ -51,8 +65,7 @@ export default function CarrouselSm({data}: Props) {
       };
   return (
     <>
-        <Slider {...settings} className="px-12 ml-12 lg:ml-0
-        overflow-hidden">
+        <Slider {...settings} className="">
             {data.map((item : Article, i: number) => (
                 <CardSm key={item._id} data={item} />
             ))}
