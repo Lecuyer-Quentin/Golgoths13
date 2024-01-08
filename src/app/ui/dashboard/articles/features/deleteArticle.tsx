@@ -1,5 +1,8 @@
 import { deleteArticle } from '@/libs/articles'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { MdDeleteSweep } from "react-icons/md";
+import { Tooltip } from '@nextui-org/react';
+
 
 type Props = {
     id: string
@@ -15,7 +18,11 @@ export default function DeleteArticle({ id }: Props) {
 
   return (
     <>
-    <Button onPress={onOpen} color="danger">Delete</Button>
+    <Tooltip content="Delete Article" placement="top" className="text-red-500">
+        <Button onPress={onOpen} isIconOnly variant="flat" className='bg-transparent text-red-500'>
+            <MdDeleteSweep />
+        </Button>
+    </Tooltip>
     <Modal 
         isOpen={isOpen} 
         onOpenChange={onOpenChange}

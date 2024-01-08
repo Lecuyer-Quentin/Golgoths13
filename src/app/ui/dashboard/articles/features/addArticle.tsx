@@ -8,6 +8,8 @@ import { Article } from "../../../../../../types";
 import { createArticle } from "../../../../../libs/articles";
 import axios from "axios";
 import { useRef } from "react";
+import { RiArticleFill } from "react-icons/ri";
+
 
 const tagsArray = [
     {label: '#teams', value: '#teams'},
@@ -154,7 +156,7 @@ export default function AddArticle() {
 
     return (
         <>
-        <Button onPress={onOpen} color="warning">Add Article</Button>
+        <Button onPress={onOpen} color="warning" startContent={<RiArticleFill />}>Add Article</Button>
         <Modal 
             isOpen={isOpen} 
             onOpenChange={onOpenChange}
@@ -196,6 +198,7 @@ export default function AddArticle() {
                         ref={refCover}
                         name="cover"
                         onChange={handleCoverChange}
+                        accept=".jpg, .jpeg, .png"
                       // required
 
                     />
@@ -213,6 +216,7 @@ export default function AddArticle() {
                         name="images"
                         multiple
                         onChange={handleImagesChange}
+                        accept=".jpg, .jpeg, .png"
                     />
                     {previewImages && (
                         <div className="flex flex-wrap justify-center items-center">

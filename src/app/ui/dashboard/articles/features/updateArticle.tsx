@@ -1,9 +1,11 @@
 import { Article } from '../../../../../../types'
 import { updateArticle } from '@/libs/articles'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem} from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem, Tooltip} from "@nextui-org/react";
 import { useEffect, useState, ChangeEventHandler, useMemo, useCallback, MouseEventHandler} from "react";
 import Images from "next/image";
 import { MdDeleteForever } from "react-icons/md";
+import { MdOutlineSystemUpdateAlt } from "react-icons/md";
+
 
 const tagsArray = [
     {label: '#teams', value: '#teams'},
@@ -119,7 +121,11 @@ export default function UpdateArticle({ article }: Props) {
 
   return (
     <>
-    <Button onPress={onOpen} color="success">Update</Button>
+    <Tooltip content="Update Article" placement="top" className="text-green-500">
+        <Button onPress={onOpen} isIconOnly variant="flat" className='bg-transparent'>
+            <MdOutlineSystemUpdateAlt />
+        </Button>
+    </Tooltip>
     <Modal 
         isOpen={isOpen} 
         onOpenChange={onOpenChange}
