@@ -9,9 +9,11 @@ type Props = {
 
 export default function Table({data}:Props){
     return (
-        <div className="w-auto h-auto grid grid-cols-1 justify-items-center mx-auto gap-2
-                        md:grid md:grid-cols-2 md:w-[90%] md:gap-x-10
-                        lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:w-[100%] lg:gap-2
+        <div className=" h-auto grid grid-cols-1 justify-items-center mx-auto gap-2
+                        md:grid md:grid-cols-2 md:w-[90%]
+                        lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-2
+                        xl:flex xl:flex-row xl:flex-wrap xl:justify-center xl:w-[70rem] xl:gap-2
+                        2xl:flex 2xl:flex-row 2xl:flex-wrap 2xl:justify-center 2xl:w-[90rem] 2xl:gap-2
         ">
             {data.map((item, index) => {
                 if(index % 4 === 0) {

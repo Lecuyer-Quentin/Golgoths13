@@ -32,10 +32,10 @@ export default function Carrousel({data}:Props) {
         customPaging: function(i: number) {
             return (
                 <div className={`${active === i ? 'opacity-100 text-yellow-400' : 'opacity-50'} 
-                    w-28 h-16 rounded-lg hidden md:flex flex-col relative top-5 text-white-400 hover:opacity-100 transition duration-500 ease-in-out`}>
-                    <h4 className="text-lg">{data[i].title.substring(0,15)+'...'}</h4>
-                    <div className={`${active === i ? 'opacity-100 bg-yellow-400' : 'opacity-50'} bg-white w-full h-1 rounded-full absolute bottom-9`}></div>
-                    <div className="flex justify-between w-full">
+                    w-32 h-12 hidden md:flex flex-col relative top-5 text-white-400 hover:opacity-100 transition duration-500 ease-in-out`}>
+                    <h4 className="text-lg absolute left-0">{data[i].title.substring(0,15)+'...'}</h4>
+                    <hr className={`${active === i ? 'opacity-100 border-yellow-400' : 'opacity-50'} border-white w-full absolute bottom-5`} />
+                    <div className="flex justify-between absolute right-0 bottom-0">
                         <span className="text-sm">{data[i].tags}</span>
                     </div>
                 </div>
