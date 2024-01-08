@@ -10,6 +10,7 @@ export default function LastNews() {
     const [lastNewsData, setLastNewsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const URL = '/page/news';
 
   
     const fetchData = () => {
@@ -40,7 +41,7 @@ export default function LastNews() {
         <section id='lastNews' className="w-full h-auto py-10 ">
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-4xl font-bold">Last News</h2>
-            <Link href="/news">
+            <Link href={URL}>
               See all
             </Link>
           </div>

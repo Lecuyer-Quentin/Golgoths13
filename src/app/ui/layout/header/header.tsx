@@ -15,7 +15,7 @@ type MenuItem = {
 }
 
 const menuItems = [
-    { title: "Actualités", href: "/news", subtitle:[{title:"subtitle", href:"#"},{title:"subtitle", href:"#"}] },
+    { title: "Actualités", href: "/page/news", subtitle:[{title:"subtitle", href:"#"},{title:"subtitle", href:"#"}] },
     { title: "Équipes", href: "/teams",subtitle:[{title:"subtitle2", href:"#"},{title:"subtitle", href:"#"}] },
     { title: "Matchs", href: "/matchs", subtitle:[{title:"subtitle3", href:"#"},{title:"subtitle", href:"#"}] },
     { title: "Club", href: "/club", subtitle:[{title:"subtitle4", href:"#"},{title:"subtitle", href:"#"}] },

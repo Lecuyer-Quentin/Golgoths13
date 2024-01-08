@@ -19,7 +19,7 @@ export default function Card({data} : Props) {
 
   if(!data) return null
   const { _id, title, cover, tags } = data;
-  const URL = `/articles/${_id}`
+  const URL = `/page/articles/${_id}`
 
   const renderArticleCover = (cover: string[], title: string) => {
     return (

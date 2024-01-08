@@ -16,6 +16,7 @@ type Props = {
 export default function ArticleItem({ article }: Props) {
 
     const { title, description, tags, cover, images, content} = article;
+    const URL = `/page/articles/${article._id}`
 
     const [active, setActive] = useState(false);
     
@@ -119,7 +120,7 @@ export default function ArticleItem({ article }: Props) {
         </div>
         <div className='w-full flex flex-row justify-end items-center'>
             <Tooltip content='View article' className='text-yellow-500' placement='top'>
-                <Link href={`/articles/${article._id}`}>
+                <Link href={URL}>
                     <FaRegEye />
                 </Link>
             </Tooltip>

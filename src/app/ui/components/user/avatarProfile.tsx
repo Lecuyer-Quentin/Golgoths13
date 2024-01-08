@@ -27,7 +27,7 @@ export default function AvatarProfile() {
     { title: "My Profile", href: "/", key: "profile" },
     { title: "My Settings", href: "/", key: "settings" },
     { title: "Help & Feedback", href: "/", key: "help_and_feedback" },
-    {roles : ["admin"], title: "Admin", href: "/dashboard", key: "admin" },
+    {roles : ["admin"], title: "Admin", href: "/page/dashboard", key: "admin" },
   ]
 
 

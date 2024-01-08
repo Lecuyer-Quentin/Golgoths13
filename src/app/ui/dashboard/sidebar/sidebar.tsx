@@ -14,22 +14,22 @@ const menuItems = [
             {
                 title: 'Dashboard',
                 icon: <MdDashboard />,
-                link: '/dashboard',
+                link: '/page/dashboard',
             },
             {
                 title : 'Articles',
                 icon : <RiArticleLine />,
-                link : '/dashboard/articles'
+                link : '/page/dashboard/articles'
             },
             {
                 title : 'Users',
                 icon : <FaUsersCog />,
-                link : '/dashboard/users'
+                link : '/page/dashboard/users'
             },
             {
                 title : 'Teams',
                 icon : <CiBasketball />,
-                link : '/dashboard/teams'
+                link : '/page/dashboard/teams'
             },
         ],
     },
@@ -39,12 +39,12 @@ const menuItems = [
             {
                 title: 'Settings',
                 icon: <CiSettings />,
-                link: '/dashboard/settings',
+                link: '/page/dashboard/settings',
             },
             {
                 title: 'Help',
                 icon: <CiSettings />,
-                link: '/dashboard/help',
+                link: '/page/dashboard/help',
             },
             {
                 title: 'Logout',

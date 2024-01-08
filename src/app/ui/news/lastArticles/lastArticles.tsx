@@ -10,6 +10,7 @@ export default function LastArticles() {
     const [lastArticlesData, setLastArticlesData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const URL = '/page/articles';
 
     //todo - change this to get only articles
     const fetchData = () => {
@@ -38,7 +39,7 @@ export default function LastArticles() {
         <section className="w-full py-10">
           <div className="flex items-center justify-between mx-4 mb-8">
             <h2 className="text-4xl font-bold">Last Articles</h2>
-            <Link href="/articles">
+            <Link href={URL}>
               View all
             </Link>
           </div>

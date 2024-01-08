@@ -15,6 +15,7 @@ type Props = {
 export default function Carrousel({data}:Props) {
     const [active, setActive] = useState(0);
     if(!data) return null;
+    const URL = `/page/articles/${data[active]._id}`
 
 
 
@@ -58,7 +59,6 @@ export default function Carrousel({data}:Props) {
 
     const renderContent = (item: Article) => {
         const {_id, title, description} = item;
-        const URL = `/articles/${_id}`
         return (
             <Link href={URL}>
                 <div className="absolute top-10 left-8 flex-col justify-around p-5 h-1/2 w-2/3 cursor-pointer">

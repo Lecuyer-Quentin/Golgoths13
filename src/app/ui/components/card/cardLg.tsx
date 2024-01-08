@@ -18,7 +18,7 @@ export default function CardSm({data} : Props) {
   const [hover, setHover] = useState(false);
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
-  const URL = `/articles/${_id}`;
+  const URL = `/page/articles/${_id}`;
 
 
   const renderArticleCover = (cover: string[], title: string) => {

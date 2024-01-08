@@ -10,6 +10,7 @@ export default function LastVideo() {
     const [lastVideoData, setLastVideoData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const URL = `/page/videos`
 
     //todo - change this to get only videos
     const fetchData = () => {
@@ -38,7 +39,7 @@ export default function LastVideo() {
         <section className="w-full py-10">
           <div className="flex items-center justify-between mx-4 mb-8">
             <h2 className="text-4xl font-bold">Last Video</h2>
-            <Link href="/videos">
+            <Link href={URL}>
                 View all
             </Link>
           </div>
