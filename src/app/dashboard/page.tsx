@@ -5,12 +5,12 @@ import TeamsPage from './teams/page'
 export default function DashboardPage() {
   return (
     <main className="flex flex-col w-full h-full lg:flex-row ">
-      <section className="flex flex-col w-full h-full bg-gray-300">
+      <section className="flex flex-col w-full h-full bg-white">
         <ArticlesPage />
         <UsersPage />
         <TeamsPage />
       </section>
-      <section className="flex flex-col w-80 h-full bg-gray-100">
+      <section className="flex flex-col w-80 h-full">
         <p> 
           Right side
         </p>

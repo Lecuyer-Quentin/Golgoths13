@@ -12,7 +12,7 @@ export default function NewsLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className='flex flex-col w-full h-full px-20 py-10 min-h-screen'>
+    <main className='flex flex-col w-full h-full px-5 py-10 min-h-screen justify-center items-center'>
         {children}
     </main>
   )
