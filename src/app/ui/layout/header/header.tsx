@@ -46,7 +46,7 @@ export default function Header() {
     }
 
   return (
-    <header>
+    <header className="w-full px-4 py-2 bg-black">
         <Navbar
             className="primaryColor text-yellow-400"
             aria-label="Site navigation"
@@ -57,21 +57,21 @@ export default function Header() {
                     aria-label={active ? "Close menu" : "Open menu"}
                     className="sm:hidden z-50"
                 />
-                <NavbarBrand className="hidden md:flex md:justify-center md:items-center">
+                <NavbarBrand className="hidden md:flex md:justify-start md:items-center flex-none">
                     <Link href="/" aria-label="Logo">
-                        <Image src={logo} alt="logo" width={200} height={200} priority className="h-auto w-auto" />
+                        <Image src={logo} alt="logo" width={150} height={150} priority className="" />
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
-
 
             <NavbarContent className="hidden sm:flex lg:justify-center lg:items-center">
                 {renderMenu()}
             </NavbarContent>
 
-            <NavbarContent justify="end" className="">
+
+            <NavbarContent justify="end" className="flex-none">  
                 <Button className="bg-transparent text-white hover:text-yellow-400 transition duration-500 ease-in-out" onClick={toggleAuth}>
-                    {auth ? "Auth false" : "Auth true"}
+                    {auth ? "Deco" : "Co"}
                 </Button>
                 {auth ? <AvatarProfile /> : <SignIn />}
             </NavbarContent>
