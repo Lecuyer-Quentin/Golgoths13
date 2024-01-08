@@ -58,7 +58,7 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    <div className="flex flex-col w-48 h-screen px-4 py-8 primaryColor">
+    <div className="flex flex-col w-48 h-screen px-4 py-8 primaryColor sticky top-0">
         <UserInfo />
 
         <div className="flex flex-col justify-between flex-1 mt-6">
