@@ -4,14 +4,16 @@ import Card from '../../components/card/card';
 import { useEffect, useState } from 'react';
 import { Article } from "../../../../../types";
 import { getSortedArticlesData } from '@/libs/articles';
+import Error from '../../error/error';
 
 
 export default function Banner() {
     const [bannerData, setBannerData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    useEffect(() => {
+  
+    const fetchData = () => {
+        setIsLoading(true);
         getSortedArticlesData()
             .then((res) => {
                 res = res.slice(0, 3);
@@ -22,11 +24,15 @@ export default function Banner() {
                 setError(err);
                 setIsLoading(false);
             })
-    }, []);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     if (isLoading) return <div>Loading...</div>
-    if (error) return <div>Error...</div>
-    
+    if (error) return <Error error={error} reset={fetchData} />
+
     const renderContent = () => {
         return bannerData.map((article : Article) => {
             return <Card key={article._id} data={article} />
