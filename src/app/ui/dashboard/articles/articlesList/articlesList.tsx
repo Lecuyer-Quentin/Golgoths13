@@ -4,8 +4,14 @@ import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import ArticleItem from './articleItem/articleItem';
 import { Article } from '../../../../../../types';
-import DeleteArticle from '../features/deleteArticle';
-import UpdateArticle from '../features/updateArticle';
+import Error from '@/app/ui/error/error';
+import {Accordion, AccordionItem} from "@nextui-org/react";
+import { FaExpandArrowsAlt } from "react-icons/fa";
+import { FaCompressArrowsAlt } from "react-icons/fa";
+
+
+
+
 
 
 export default function ArticlesList() {
@@ -13,41 +19,48 @@ export default function ArticlesList() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-
-    useEffect(() => {
+    const fetchData = () => {
         setLoading(true);
         getSortedArticlesData()
-        .then((articles) => {
-            setAllArticlesData(articles);
-            setLoading(false);
-        })
-        .catch((e) => {
-            setError(e);
-            setLoading(false);
-        })
-    }, []);
+            .then((res) => {
+                setAllArticlesData(res);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err);
+                setLoading(false);
+            })
+    }
+     useEffect(() => {
+        fetchData();
+    }, [])
 
     if (loading) return <div>Loading...</div>
-    if (error) return <div>Error...</div>
-
-    const renderArticles = allArticlesData.map((article : Article) => {
-        return (
-            <li key={article._id} className='flex flex-row justify-between mx-4'>
-                <ArticleItem article={article} />
-                <div className='flex flex-row space-x-4'>
-                    <DeleteArticle id={article._id} />
-                    <UpdateArticle article={article} />
-                </div>
-            </li>
-        )}
-    );
-
+    if (error) return <Error error={error} reset={fetchData} />      
+   
     const renderArticlesList = (
-        <ul className='flex flex-col space-y-4 mt-4 border-2 border-gray-200 mx-4'>
-            {renderArticles}
-        </ul>
-    );
+        <Accordion selectionMode='multiple' variant="splitted" className='w-full h-full'>
+            {allArticlesData.map((article: Article) => {
+                return (
+                    <AccordionItem key={article._id} title={article.title} 
+                        style={{
+                                borderBottom: '2px solid black',
+                                borderRadius: '0.5rem',
+                                padding: '0.5rem',
+                                marginLeft: '0.5rem',
+                                marginRight: '0.5rem',
+                            }}
+                        indicator={({isOpen}) => (
+                            isOpen 
+                                ? <FaCompressArrowsAlt className='text-yellow-500' />
+                                : <FaExpandArrowsAlt />)}>
 
+                        <ArticleItem article={article} />
+                    </AccordionItem>
+                )
+            })}
+        </Accordion>
+    )
     
     return renderArticlesList;
 }
