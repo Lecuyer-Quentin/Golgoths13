@@ -8,8 +8,8 @@ type Props = {
 export default function UserItem({user} : Props) {
     const {email} = user
   return (
-    <li className='flex flex-row'>
+    <>
         <p>{email}</p>
-    </li>
+    </>
   )
 }
