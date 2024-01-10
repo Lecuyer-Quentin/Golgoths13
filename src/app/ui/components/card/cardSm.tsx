@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from 'next/link';
 import { Article } from '../../../../../types';
 import InfoBtn from "../button/infoBtn";
+import { forEach } from "@/app/utils/forEach";
 
 
 type Props = {
@@ -43,13 +44,13 @@ export default function CardSm({data} : Props) {
   const renderArticleTags = (tags: string[]) => {
     return (
       <div className="absolute bottom-2 right-2">
-        {tags.map((tag) => {
+        {forEach({of: tags, render: (tag: string) => {
           return (
-            <span key={tag} className="text-sm font-bold px-1 py-1">
+            <span key={tag} className="bg-yellow-400 text-black text-sm font-bold rounded-full px-2 py-1 mx-1">
               {tag}
             </span>
           )
-        })}
+        }})}
       </div>
     )
   }
@@ -64,27 +65,34 @@ export default function CardSm({data} : Props) {
     )
   }
 
+  const renderCard = () => {
+    return (
+      <Link href={URL}>
+        <article onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="w-[18rem] h-[22rem] rounded-xl relative text-white overflow-hidden cursor-pointer">
+          {cover ? renderArticleCover(cover, title) : null}
+          <div className={`absolute bottom-0 left-0 rounded-b-xl flex flex-col justify-center items-center transition-all duration-300
+                         ${hover 
+                            ? "h-1/3 w-full bg-white after:bg-yellow-500 after:rounded-xl after:absolute after:bottom-4 after:left-50 after:w-4/5 after:h-[2px] "
+                            : " w-full h-full bg-black bg-opacity-50 rounded-xl"}`}>
+            {!hover ? renderArticleTitle(title) : null}
+            {hover 
+              ? InfoBtn()
+              : renderArticleTags(tags)
+            }
+            {hover ? renderArticleDescription(description) : null}
+          </div>
+        </article>
+      </Link>
+    )
+  }
+
 
 
 
   return (
-
-    <Link href={URL}>
-      <article onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="w-[18rem] h-[22rem] rounded-xl relative text-white overflow-hidden cursor-pointer">
-        {data && renderArticleCover(cover, title)}
-        <div className={`absolute bottom-0 left-0 rounded-b-xl flex flex-col justify-center items-center transition-all duration-300
-                         ${hover 
-                            ? "h-1/3 w-full bg-white after:bg-yellow-500 after:rounded-xl after:absolute after:bottom-4 after:left-50 after:w-4/5 after:h-[2px] "
-                            : " w-full h-full bg-black bg-opacity-50 rounded-xl"}`}>
-            {data && !hover && renderArticleTitle(title)}
-            {data && hover 
-              ? InfoBtn()
-              : renderArticleTags(tags)
-            }
-            {data && hover && renderArticleDescription(description)}
-        </div>
-      </article>
-    </Link>
+    <>
+      {renderCard()}
+    </>
   )
 }
 

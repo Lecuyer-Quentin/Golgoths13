@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Article } from "../../../../../types";
 import Slider from "react-slick";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { forEach } from "@/app/utils/forEach";
 
 
 type Props = {
@@ -58,7 +59,7 @@ export default function Carrousel({data}:Props) {
     };
 
     const renderContent = (item: Article) => {
-        const {_id, title, description} = item;
+        const {title, description} = item;
         return (
             <Link href={URL}>
                 <div className="absolute top-10 left-8 flex-col justify-around p-5 h-1/2 w-2/3 cursor-pointer">
@@ -78,16 +79,23 @@ export default function Carrousel({data}:Props) {
         )
     }
 
+    const renderSlider = () => {
+        return forEach({of: data, render: (article : Article) => {
+            return (
+                <div className="h-screen md:h-[36rem] w-full relative" >
+                    {renderCover(article)}
+                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-r from-black"></div>
+                    {renderContent(article)}
+                </div>
+            )
+        }})
+    }
+
+
     return (
         <>
             <Slider {...settings}>
-                {data.map((item,_id) => (
-                    <div key={_id} className="h-screen md:h-[36rem] w-full relative" >
-                        {renderCover(item)}
-                        <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-r from-black"></div>
-                        {renderContent(item)}
-                    </div>
-                ))}               
+                {renderSlider()}              
             </Slider>
         </>
     )
