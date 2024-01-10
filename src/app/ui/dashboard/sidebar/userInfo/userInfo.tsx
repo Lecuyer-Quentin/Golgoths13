@@ -1,19 +1,61 @@
-import React from 'react'
-import Image from 'next/image'
 
-export default function UserInfo() {
+import Image from 'next/image'
+import { Avatar } from '@nextui-org/react'
+import type { User } from "next-auth";
+
+type UserProfile = {
+  user : User;
+  role : string;
+}
+
+export default function UserInfo({user, role} : UserProfile) {
+
+    const { image, name } = user;
+
+    const renderUserImage = image ? (
+        <Avatar
+          isBordered
+          as="button"
+          color="warning"
+          className="transition-transform hover:scale-110"
+          src={image}
+        />
+      ) : (
+        <Avatar
+          isBordered
+          as="button"
+          color="warning"
+          className="transition-transform hover:scale-110"
+        >
+          {name?.charAt(0)}
+        </Avatar>
+      )
+    
+    const renderUserName = name ? (
+        <>{name}</>
+      ) : (
+        <>Email not found</>
+      )
+
+    const renderUserRole = role ? (
+        <>{role}</>
+      ) : (
+        <>Role not found</>
+      )
+
+
+
   return (
       <div className="flex items-center px-4 -mx-2">
-            <Image width={50} height={50} className="object-cover mx-2 rounded-full h-9 w-9"
-                src=""
-                alt=""
-            />
+        <div className="flex-shrink-0">
+            {renderUserImage}
+        </div>
         <div className="mx-2">
-            <h4 className="mx-2 font-medium text-gray-800 dark:text-gray-200 ">
-                Username
-            </h4>
+            <p className="mx-2 font-medium text-gray-800 dark:text-gray-200 ">
+                {renderUserName}
+            </p>
             <p className="mx-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                Role
+                {renderUserRole}
             </p>
         </div>
         </div>
