@@ -4,45 +4,51 @@ import {  Navbar,   NavbarBrand,   NavbarContent,   NavbarItem,   NavbarMenuTogg
 import { Link, Button } from "@nextui-org/react";
 import { useState } from "react";
 import Image from "next/image";
-import SignIn from "../../auth/signIn/signIn";
 import AvatarProfile from "../../components/user/avatarProfile";
 import Logo from "../../../../../public/logos/g13_logo.png";
+import { LoginButton } from "../../auth/loginButton";
+import { forEach } from "@/app/utils/forEach";
+import { useSession } from "next-auth/react";
+import { User } from "next-auth";
+
 
 type MenuItem = {
     title: string;
     href: string;
-    subtitle: {title: string, href: string}[];
 }
 
 const menuItems = [
-    { title: "Actualités", href: "/page/news", subtitle:[{title:"subtitle", href:"#"},{title:"subtitle", href:"#"}] },
-    { title: "Équipes", href: "/teams",subtitle:[{title:"subtitle2", href:"#"},{title:"subtitle", href:"#"}] },
-    { title: "Matchs", href: "/matchs", subtitle:[{title:"subtitle3", href:"#"},{title:"subtitle", href:"#"}] },
-    { title: "Club", href: "/club", subtitle:[{title:"subtitle4", href:"#"},{title:"subtitle", href:"#"}] },
+    { title: "Actualités", href: "/page/news" },
+    { title: "Équipes", href: "/teams" },
+    { title: "Matchs", href: "/matchs"},
+    { title: "Club", href: "/club"},
 ];
 
-export default function Header() {
+export default function Header( ) {
     const logo = Logo;
     const [active, setActive] = useState(false);
     const toggleActive = () => setActive(!active);
-    const [auth, setAuth] = useState(false);
-    const toggleAuth = () => setAuth(!auth);
-   
-    
+    const {data: session, status} = useSession();
+    const user = session?.user as User;
+    const role = session?.role as string;
+
     const renderMenu = () => {
-        return (
-            <>
-                {menuItems.map((item : MenuItem, i: number) => (
-                    <Link href={item.href} key={i}>
-                        <NavbarItem className="relative">
-                            <Button disableRipple className="bg-transparent text-white hover:text-yellow-400 transition duration-500 ease-in-out">
-                                {(item.title).toUpperCase()}
-                            </Button>
-                        </NavbarItem>
-                    </Link>  
-                ))}
-            </>
-        )  
+        return forEach({of: menuItems, render: (item : MenuItem) => {
+            const {title, href} = item;
+            return (
+                <NavbarMenuItem key={title} className="relative">
+                    <Button onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)}
+                    disableRipple className="bg-transparent text-white hover:text-yellow-400 transition duration-500 ease-in-out">
+                        <Link 
+                            href={href}
+                            className="bg-transparent text-white hover:text-yellow-400 transition duration-500 ease-in-out"
+                        >
+                            {(title).toUpperCase()}
+                        </Link>
+                    </Button>
+                </NavbarMenuItem>
+            )
+        }})
     }
 
   return (
@@ -70,10 +76,12 @@ export default function Header() {
 
 
             <NavbarContent justify="end" className="flex-none">  
-                <Button className="bg-transparent text-white hover:text-yellow-400 transition duration-500 ease-in-out" onClick={toggleAuth}>
-                    {auth ? "Deco" : "Co"}
-                </Button>
-                {auth ? <AvatarProfile /> : <SignIn />}
+                <NavbarItem className="flex-none">
+                    {session
+                        ? <AvatarProfile user={user} role={role} />
+                        : <LoginButton >Login</LoginButton>
+                    }
+                </NavbarItem>
             </NavbarContent>
 
             <NavbarMenu className="bg-transparent">
