@@ -1,10 +1,11 @@
 'use client'
 
 import Card from '../../components/card/card';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Article } from "../../../../../types";
 import { getSortedArticlesData } from '@/libs/articles';
 import Error from '../../error/error';
+import { forEach } from '../../../utils/forEach';
 
 
 export default function Banner() {
@@ -34,8 +35,9 @@ export default function Banner() {
     if (error) return <Error error={error} reset={fetchData} />
 
     const renderContent = () => {
-        return bannerData.map((article : Article) => {
-            return <Card key={article._id} data={article} />
+        return forEach({of: bannerData, render: (article : Article) => {
+                return <Card key={article._id} data={article} />
+            }
         })
     }
 
