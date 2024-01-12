@@ -16,6 +16,15 @@ export default withAuth(
                 new URL ('/page/denied', req.url)
             )
         }
+        if(req.nextUrl.pathname.startsWith('/page/profile')
+            && req.nextauth.token?.role !== 'admin'
+            && req.nextauth.token?.role !== 'editor'
+            && req.nextauth.token?.role !== 'user'
+        ) {
+            return NextResponse.rewrite(
+                new URL ('/page/denied', req.url)
+            )
+        }
     },
       
     {
