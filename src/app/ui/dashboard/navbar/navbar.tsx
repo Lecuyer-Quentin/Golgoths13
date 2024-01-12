@@ -1,12 +1,51 @@
+'use client'
+
 import SearchBar from './searchBar/searchBar'
+
+import { FaSearchPlus } from "react-icons/fa";
+import { FaSearchMinus } from "react-icons/fa";
+
+import { useState } from "react";
+import { Button } from "@nextui-org/react";
+
+
 
 
 export default function Navbar() {
-  return (
-    <div className="flex justify-between items-center h-16 mt-8 primaryColor">
-      <h2 className="text-3xl font-semibold text-white ml-6">Dashboard</h2>
+  const [active, setActive] = useState(false);
+
+ 
+  const renderSearchIconPlus = () => {
+    return (
+      <Button onClick={() => setActive(!active)} isIconOnly color="warning" variant="faded" aria-label="Open search bar" className="bg-transparent border-none" disableRipple>
+        <FaSearchPlus className='text-yellow-400 text-xl' />
+      </Button>
+
+    )
+  }
+
+  const renderSearchIconMinus = () => {
+    return (
+      <Button onClick={() => setActive(!active)} isIconOnly color="warning" variant="faded" aria-label="Open search bar" className="bg-transparent border-none" disableRipple >
+        <FaSearchMinus className='text-yellow-400 text-xl' />
+      </Button>
+    )
+  }
+  const renderNavbar = () => {
+    return (
+      <div className="flex justify-center items-center h-12 transition-all duration-300 ease-in-out transform md:justify-between">
       <SearchBar />
     </div >
+    )
+  }
+
+
+  return (
+    <div className="relative text-yellow-400 flex justify-end items-center">
+      {active ? renderNavbar() : null}
+      {active ? renderSearchIconMinus() : renderSearchIconPlus()}
+  </div>
+    
     
   )
 }
