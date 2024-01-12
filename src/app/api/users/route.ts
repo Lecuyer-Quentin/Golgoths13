@@ -13,3 +13,15 @@ export async function GET(request: Request) {
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 }
+
+export async function POST(request: Request) {
+    const { email, password } = await request.json();
+    try{
+        await connectToDb();
+        await User.create({ email, password });
+        return NextResponse.json({ message: "User created" }, { status: 201 });
+    } catch (error) {
+        console.error('Error in POST method:', error);
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    }
+}
