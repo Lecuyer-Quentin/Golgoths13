@@ -1,5 +1,3 @@
-//'use client'
-
 import ArticleDetails from '@/app/ui/articles/articleDetails/articleDetails'
 
 export async function generateMetadata() {
