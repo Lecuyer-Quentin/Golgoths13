@@ -15,8 +15,11 @@ type Props = {
 
 export default function Carrousel({data}:Props) {
     const [active, setActive] = useState(0);
+
     if(!data) return null;
-    const URL = `/page/articles/${data[active]._id}`
+    if(!data[active]) return null;
+    const { _id, title, cover, description, tags } = data[active];
+    const URL = `/page/articles/${_id}`
 
 
 
@@ -83,9 +86,9 @@ export default function Carrousel({data}:Props) {
         return forEach({of: data, render: (article : Article) => {
             return (
                 <div className="h-screen md:h-[36rem] w-full relative" >
-                    {renderCover(article)}
+                    {cover ? renderCover(article) : null}
                     <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-r from-black"></div>
-                    {renderContent(article)}
+                    {article ? renderContent(article) : null}
                 </div>
             )
         }})

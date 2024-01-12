@@ -9,6 +9,7 @@ type Props = {
   
 
 export default function Table({data}:Props){
+    if(!data) return null;
 
     const renderContent = () => {
         return forEach({of: data, render: (article : Article) => {

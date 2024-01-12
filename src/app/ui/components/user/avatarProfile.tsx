@@ -1,6 +1,7 @@
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, DropdownSection} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, DropdownSection, Button} from "@nextui-org/react";
 import Link from "next/link";
 import type { User } from "next-auth";
+import { signOut } from "next-auth/react";
 
 type UserProfile = {
   user : User;
@@ -16,6 +17,7 @@ type MenuItem = {
 
 export default function AvatarProfile({user, role} : UserProfile) {
 
+  if (!user) return null;
   const { image, email, name } = user;
   
   const menuItemsUser = [
@@ -116,10 +118,11 @@ export default function AvatarProfile({user, role} : UserProfile) {
           </DropdownSection>
 
           
-          <DropdownItem 
-            href="/api/auth/signout" aria-label="submenu item"
-            key="logout" className="h-14 gap-2" color="danger" variant="light">
-                Log out
+          <DropdownItem key="signOut">
+            <Button onClick={() => signOut()} color="danger" variant="faded" aria-label="Sign out button" className="bg-transparent border-none" disableRipple >
+              Sign Out
+            </Button>
+          
           </DropdownItem>
 
         </DropdownMenu>

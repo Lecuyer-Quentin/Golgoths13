@@ -18,7 +18,7 @@ export default function CardSm({data} : Props) {
 
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
-  if(!data) return null;
+ // if(!data) return null;
   const { _id, title, cover,description, tags } = data;
   const URL = `/page/articles/${_id}`
 

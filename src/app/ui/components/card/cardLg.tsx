@@ -14,11 +14,12 @@ type Props = {
 
 
 export default function CardSm({data} : Props) {
-
-  const { _id, title, description, cover, tags } = data; 
   const [hover, setHover] = useState(false);
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
+  
+  if(!data) return null;
+  const { _id, title, description, cover, tags } = data; 
   const URL = `/page/articles/${_id}`;
 
 

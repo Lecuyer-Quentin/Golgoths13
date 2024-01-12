@@ -5,14 +5,14 @@ import CardSm from '../card/cardSm'
 import Slider from 'react-slick'
 import { Article } from '../../../../../types'
 import { forEach } from '../../../utils/forEach'
-//import "slick-carousel/slick/slick.css"; 
-//import "slick-carousel/slick/slick-theme.css";
 
 type Props = {
     data: Article[];
 }
 
 export default function CarrouselSm({data}: Props) {
+
+  if(!data) return null;
 
     const settings = {
         dots: false,

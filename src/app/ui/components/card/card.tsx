@@ -19,7 +19,7 @@ export default function Card({data} : Props) {
   const handleMouseLeave = () => setHover(false);
 
   if(!data) return null
-  const { _id, title, cover, tags } = data;
+  const { _id, title, cover, tags } = data as Article;
   const URL = `/page/articles/${_id}`
 
   const renderArticleCover = (cover: string[], title: string) => {
