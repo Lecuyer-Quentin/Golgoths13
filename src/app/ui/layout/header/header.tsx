@@ -52,9 +52,9 @@ export default function Header( ) {
     }
 
   return (
-    <header className="w-full px-4 py-2 bg-black">
+    <header className="w-full px-2 py-2 bg-black">
         <Navbar
-            className="primaryColor text-yellow-400"
+            className="primaryColor text-yellow-400 h-12"
             aria-label="Site navigation"
             shouldHideOnScroll={true} onMenuOpenChange={toggleActive}>
 
@@ -79,7 +79,7 @@ export default function Header( ) {
                 <NavbarItem className="flex-none">
                     {session
                         ? <AvatarProfile user={user} role={role} />
-                        : <LoginButton >Login</LoginButton>
+                        : <LoginButton mode="modal">Login</LoginButton>
                     }
                 </NavbarItem>
             </NavbarContent>

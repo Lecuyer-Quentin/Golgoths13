@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import ArticleItem from './articleItem/articleItem';
-import { Article } from '../../../../../../types';
+import { Article } from '../../../../../types';
 import Error from '@/app/ui/error/error';
 import {Accordion, AccordionItem} from "@nextui-org/react";
 import { FaExpandArrowsAlt } from "react-icons/fa";

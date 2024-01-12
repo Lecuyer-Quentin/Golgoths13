@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import Carrousel from '../../components/carrousel/carrousel';
 import Error from '../../error/error';
+import { useCallback, useRef } from 'react';
 
 export default function Hero() {
     const [carrouselData, setCarrouselData] = useState([]);
@@ -24,14 +25,17 @@ export default function Hero() {
           })
   }
 
+  //const fetchDataMemo = useMemo(() => fetchData, []);
+
   useEffect(() => {
       fetchData();
-  }, [])
+  }, []);
 
 
     if (isLoading) return <div>Loading...</div>
     if (error) return <Error error={error} reset={fetchData} />
 
+    // todo : cause error in prod if no data
     const renderCarrousel = () => {
       return (
         <section className="w-full relative flex justify-center items-center mt-20 mb-20">

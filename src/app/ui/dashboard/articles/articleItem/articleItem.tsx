@@ -1,7 +1,7 @@
 import { Tooltip } from '@nextui-org/react';
-import { Article } from '../../../../../../../types'
-import DeleteArticle from '../../features/deleteArticle';
-import UpdateArticle from '../../features/updateArticle';
+import { Article } from '../../../../../../types';
+import DeleteArticle from '../../../../features/form/article/deleteArticle';
+import UpdateArticle from '../../../../features/form/article/updateArticle';
 import Image from 'next/image';
 import { FaRegEye } from "react-icons/fa6";
 import Link from 'next/link';
@@ -90,19 +90,19 @@ export default function ArticleItem({ article }: Props) {
 
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Description:</span> 
-                {renderArticleDescription}
+                {description ? renderArticleDescription : <p>No description</p>}
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Tags: </span> 
-                {renderArticleTags}
+                {tags ? renderArticleTags : <p>No tags</p>}
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Cover: </span> 
-                {renderArticleCover()}
+                {cover ? renderArticleCover() : <p>No cover</p>}
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Images: </span> 
-                {renderArticleImages}
+                {images ? renderArticleImages : <p>No images</p>}
             </div>
             
         </div>
