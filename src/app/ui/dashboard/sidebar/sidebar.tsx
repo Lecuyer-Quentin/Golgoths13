@@ -10,6 +10,14 @@ import MenuLink from "./menuLink/menuLink";
 import UserInfo from "./userInfo/userInfo";
 import type { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import Link from "next/link";
+import {Button} from "@nextui-org/react";
+import { Tooltip } from "@nextui-org/react";
+
+import { GiMoebiusTriangle } from "react-icons/gi";
+
+
 
 
 const menuItems = [
@@ -65,6 +73,7 @@ export default function Sidebar() {
     const {data: session, status} = useSession();
     const user = session?.user as User;
     const role = session?.role as string;
+    const [active, setActive ] = useState(false);
 
 
     const renderMenu = () => {
@@ -83,19 +92,69 @@ export default function Sidebar() {
                 </div>
             )
         })
+    }   
+
+
+    const renderSidebar = () => {
+        return (
+            <nav className="flex flex-col h-screen px-4 py-8 primaryColor sticky top-0 left-0 w-18">
+                {session && session?.user &&
+                    <UserInfo user={user} role={role} />
+                }
+                {renderMenu()}
+            </nav>
+        )
     }
 
-  return (
-    <div className="flex flex-col w-48 h-screen px-4 py-8 primaryColor sticky top-0">
-        {session && session?.user && 
-            <UserInfo user={user} role={role} />
-        }
-        <div className="flex flex-col justify-between flex-1 mt-6">
-            <nav>
-            {renderMenu()}
-            </nav>
-        </div>
-    </div>
+    const renderIcons = () => {
+        return menuItems.map((item) => {
+            const {title, list} = item;
+            return (
+                <ul className="flex justify-center items-center" key={title}>
+                    {list.map((item, link) => (
+                        <li className="relative py-3 flex flex-col justify-center items-center px-2 " key={item.title}>
+                            <Tooltip placement="top" content={item.title} className="text-black">
+                                <Link href={item.link} className="inline-flex items-center justify-center w-8 h-8 text-sm text-black bg-yellow-400 rounded-full hover:bg-yellow-500">
+                                    {item.icon}
+                                </Link>
+                            </Tooltip>
+                        </li> 
+                    ))}
+                </ul>   
+                 )
+        })
 
-  )
+    }
+
+    const renderSidebarMobile = () => {
+        return (
+            <nav className="flex justify-center items-center primaryColor w-full">
+                {renderIcons()}
+            </nav>
+        )
+    }
+
+    const renderMenuIcon = () => {
+        return (
+            <Button onClick={() => setActive(!active)} isIconOnly color="warning" variant="faded" aria-label="Open search bar" className="bg-transparent border-none absolute z-10" disableRipple >
+                <GiMoebiusTriangle className='text-yellow-400 text-xl' />
+            </Button>
+        )
+    }
+
+
+
+  return (
+    <>
+    <div className="hidden md:flex md:flex-shrink-0">
+        {renderMenuIcon()}
+        {active && renderSidebar()}
+    </div>
+    <div className="md:hidden relative">
+        {renderMenuIcon()}
+        {active && renderSidebarMobile()}
+    </div>
+    </>
+    )
+ 
 }
