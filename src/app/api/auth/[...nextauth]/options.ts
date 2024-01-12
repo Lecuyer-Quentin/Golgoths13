@@ -2,7 +2,9 @@ import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import { GithubProfile } from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
-
+import GoogleProvider from 'next-auth/providers/google'
+import { GoogleProfile } from 'next-auth/providers/google'
+import { Providers } from '@/app/providers'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -21,6 +23,10 @@ export const options: NextAuthOptions = {
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
+        }),
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
@@ -31,7 +37,7 @@ export const options: NextAuthOptions = {
                 // Add logic here to look up the user from the credentials supplied
                 // You can also use the `req` object to obtain additional parameters
 
-                const user = { id: '1', email: 'quentin.lecuyer@mailfence.com', password: 'test', role: 'admin', name: 'Quentin Lecuyer' }
+                const user = { id: '1', email: 'quentin.lecuyer@test.com', password: 'test', role: 'admin', name: 'Quentin Lecuyer' }
                 if (credentials?.email === user.email && credentials?.password === user.password) {
                     // Any object returned will be saved in `user` property of the JWT
                     return user
@@ -48,10 +54,8 @@ export const options: NextAuthOptions = {
            
     ],
     pages: {
-    // signIn: '/auth/login',
-       // signOut: '/auth/logout',
-       // error: '/auth/error', // Error code passed in query string as ?error=
-       // verifyRequest: '/auth/verify-request', // (used for check email message)
+       // signIn: '/page/auth/login',
+     
     },
     callbacks: {
         async jwt(parameters) {
@@ -62,23 +66,70 @@ export const options: NextAuthOptions = {
         async session(parameters) {
             const { session, token } = parameters
             if (session) session.role = token.role
-            console.log('session callback', session)
-            console.log('token callback', token)
-            console.log('parameters callback', parameters)
-            console.log('session role', session.role)
-            console.log('token role', token.role)
             return Promise.resolve(session)
         },
+        async signIn(parameters) {
+            const { user, account, profile, email, credentials } = parameters
+
+            if (account?.provider === 'google') {
+                user.name = (profile as GoogleProfile).name
+                user.image = (profile as GoogleProfile).picture
+                user.role = 'user'
+                try{
+                    const res = await fetch(`${process.env.API_URL}/users`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(user),
+                    })
+                    const data = await res.json()
+                    console.log('data', data)
+
+                }   catch (error) {
+                    console.log('error', error)
+                }
+            }
+            if(account?.provider === 'github'){
+                user.name = (profile as GithubProfile).name
+                user.image = (profile as GithubProfile).avatar_url
+                user.role = 'user'
+                try{
+                    const res = await fetch(`${process.env.API_URL}/users`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(user),
+                    })
+                    const data = await res.json()
+                    console.log('data', data)
+                }  catch (error) {
+                    console.log('error', error)
+                }
+            }
+
+            if(account?.provider === 'credentials'){
+                //user.email = credentials.email
+                //user.role = 'user'
+                try{
+                    const res = await fetch(`${process.env.API_URL}/users`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(user),
+                    })
+                    const data = await res.json()
+                    console.log('data', data)
+
+                }  catch (error) {
+                    console.log('error', error)
+                }
+            }
+            return Promise.resolve(true)
+        }
     },
- //   callbacks: {
-    //    async jwt(token, user) {
-     //       if (user) token.role = user.role
-     //       return token
-     //   },
-     //   async session(session, token) {
-     //       if(session.user) session.user.role = token.role
-     //   },
-  //  },
     }
     // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
     // https://next-auth.js.org/schemas/adapters
