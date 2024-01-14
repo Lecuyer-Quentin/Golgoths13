@@ -1,5 +1,4 @@
-import React from 'react'
-import UsersList from '@/app/ui/dashboard/users/usersList/usersList'
+import UsersList from '@/app/ui/dashboard/users/usersList'
 
 export default function UsersPage() {
   return (
