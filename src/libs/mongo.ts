@@ -30,7 +30,6 @@ export async function connectToDbGridFs(){
     if(global.client){
         return {client: global.client, bucket: global.bucket!};
     }
-    try {
         const client = (global.client = new MongoClient(MONGO_URI! as string, {}));
         const bucket = (global.bucket = new GridFSBucket(client.db(), {
             bucketName: 'uploads',
@@ -38,9 +37,7 @@ export async function connectToDbGridFs(){
         await global.client.connect();
         console.log("MongoDB connected");
         return {client: client!, bucket: bucket!};
-    } catch (error) {
-        console.log("Error connecting MongoDb", error);
-    }
+
 }
 
 

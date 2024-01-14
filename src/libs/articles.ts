@@ -8,6 +8,9 @@ export async function getSortedArticlesData() {
         const sortedArticles = articles.sort((a : Article, b : Article) => {
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
+        if (!sortedArticles) {
+            throw new Error('No articles found');
+        }
         return sortedArticles;
     } catch (error) {
         console.log(error);
@@ -19,6 +22,9 @@ export async function getArticleDataById(id : string) {
         const res = await axios.get('/api/articles');
         const articles = res.data.articles;
         const article = articles.find((article : Article) => article._id === id);
+        if (!article) {
+            throw new Error('No article found');
+        }
         return article;
     }
     catch (error) {
