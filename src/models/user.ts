@@ -1,16 +1,14 @@
 import mongoose, { Schema } from "mongoose"
 
-//todo : add required fields
-
 const userSchema: Schema = new Schema(
     {
-        username: { type: String, unique: true },
-        name: { type: String},
-        lastName: { type: String},
+        username: { type: String, unique: true , default: 'User'},
+        name: { type: String, default: ''},
+        lastName: { type: String, default: ''},
         password: { type: String, unique: true },
         email: { type: String, unique: true },
-        role: { type: String, enum: ['admin', 'editor', 'writer', 'reader', 'guest']},
-        avatar: { type: String },
+        role: { type: String, enum: ['admin', 'editor', 'writer', 'user', 'guest'], default: 'guest' },
+        avatar: { type: String , default: 'https://res.cloudinary.com/dkkgmzpqd/image/upload/v1627668859/avatars/default-avatar.png'},
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     },
