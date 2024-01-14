@@ -9,12 +9,11 @@ import { forEach } from '@/app/utils/forEach';
 import Error from '../../error/error';
 
 
-export default function ArticleDetails() {
+export default function ArticleDetails () {
   const { id } = useParams()
-
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [articleDetails, setArticleDetails] = useState<Article>()
+  const [articleDetails, setArticleDetails] = useState<Article | null>(null)
 
   const fetchData = ( {id} : {id: string}) => {
     setIsLoading(true)
@@ -33,18 +32,18 @@ export default function ArticleDetails() {
     fetchData({id : id as string})
   }, [ id ])
 
-  
-
+  if (!articleDetails) return null
+  const { title, description, content, tags, cover, images } = articleDetails as Article
   if (isLoading) return <div>Loading...</div>
   if (error) return <Error error={error} reset={() => fetchData({id : id as string})} />
 
-  const renderArticleCover = (cover: string[], title: string) => {
-    return (
+  const renderArticleCover = () => {
+   return (
         <Image src={cover[0]} alt={title} width={200} height={200} />
     )
   }
 
-  const renderArticleImages = (images: string[], title: string) => {
+  const renderArticleImages = () => {
     return (
       <div className='grid grid-cols-2 gap-4 w-full h-full p-4 justify-items-center border-2 border-red-500'>
         {images && forEach({of: images, render: (image: string) => {
@@ -57,8 +56,7 @@ export default function ArticleDetails() {
     )
   }
 
-  const renderArticleDetails = (articleDetails: Article) => {
-    const { title, description, content, tags, cover, images } = articleDetails
+  const renderArticleDetails = () => {
     return (
       <article className='flex flex-col w-full h-full'>
         <div className='flex flex-col w-full h-full'>
@@ -68,10 +66,10 @@ export default function ArticleDetails() {
           <p>{tags}</p>
         </div>
         <div className='flex flex-col w-full h-full'>
-          {cover && renderArticleCover(cover as string[], title as string)}
+          {cover && renderArticleCover()}
         </div>
         <div className='flex flex-col w-full h-full'>
-          {images && renderArticleImages(images as string[], title as string)}
+          {images && renderArticleImages()}
         </div>
         
       </article>
@@ -80,7 +78,7 @@ export default function ArticleDetails() {
 
   return (
     <div className='flex flex-col w-full h-full justify-center items-center'>
-      {articleDetails && renderArticleDetails(articleDetails)}
+      {articleDetails && renderArticleDetails()}
     </div>
   )
 }
