@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { User } from '../../types';
+import { LoginSchema, LoginSchemaType } from "@/models/login";
+import { hashPassword } from "@/libs/bcrypt";
+
 
 
 export async function getSortedUsers() {
@@ -44,6 +47,14 @@ export async function updateUser(formData: FormData) {
         });
     }
     catch (error) {
+        console.log(error);
+    }
+}
+
+export async function createUser({ email, password, name, avatar, lastName, username, role }: User) {
+    try {
+        await axios.post('/api/users', { email, password , name, avatar, lastName, username, role });
+    } catch (error) {
         console.log(error);
     }
 }
