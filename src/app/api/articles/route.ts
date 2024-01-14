@@ -3,7 +3,6 @@ import { connectToDb } from "../../../libs/mongo";
 import Article from "../../../models/article";
 
 //todo : add auth, add validation, add error handling
-//todo : add form data handling for images
 
 export async function GET() {
     try {
@@ -67,7 +66,7 @@ export async function DELETE(request: NextRequest) {
     try{
         const { id } = await request.json();
         await connectToDb();
-        const article = await Article.findByIdAndDelete(id);
+        const article = await Article.findByIdAndDelete(id);        
         return NextResponse.json({ message: "Article deleted", article }, { status: 200 });
 
     } catch (error) {

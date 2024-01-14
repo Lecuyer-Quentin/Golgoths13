@@ -7,7 +7,7 @@ import { v4 as uuid} from 'uuid'
 
 export async function POST(request: Request) {
     const { bucket } = await connectToDbGridFs();
-    const data = await request.formData();
+    const data = await request.formData()
 
     const uploadedImages = []
 
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
             if('name' in blob){
                 filename = (blob as File).name
             }
+
 
 
             //const exists = await fileExists(filename)
@@ -55,3 +56,7 @@ export async function POST(request: Request) {
         images: uploadedImages
     }, {status: 201})
 }
+
+
+
+

@@ -5,6 +5,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import { GoogleProfile } from 'next-auth/providers/google'
 import { Providers } from '@/app/providers'
+import { fetchToSignIn } from '@/libs/auth'
+import { User } from '../../../../../types'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -75,57 +77,20 @@ export const options: NextAuthOptions = {
                 user.name = (profile as GoogleProfile).name
                 user.image = (profile as GoogleProfile).picture
                 user.role = 'user'
-                try{
-                    const res = await fetch(`${process.env.API_URL}/users`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(user),
-                    })
-                    const data = await res.json()
-                    console.log('data', data)
-
-                }   catch (error) {
-                    console.log('error', error)
-                }
+                fetchToSignIn(user)
+         
             }
             if(account?.provider === 'github'){
                 user.name = (profile as GithubProfile).name
                 user.image = (profile as GithubProfile).avatar_url
                 user.role = 'user'
-                try{
-                    const res = await fetch(`${process.env.API_URL}/users`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(user),
-                    })
-                    const data = await res.json()
-                    console.log('data', data)
-                }  catch (error) {
-                    console.log('error', error)
-                }
+                fetchToSignIn(user)
             }
 
             if(account?.provider === 'credentials'){
                 //user.email = credentials.email
                 //user.role = 'user'
-                try{
-                    const res = await fetch(`${process.env.API_URL}/users`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(user),
-                    })
-                    const data = await res.json()
-                    console.log('data', data)
-
-                }  catch (error) {
-                    console.log('error', error)
-                }
+                fetchToSignIn(user)
             }
             return Promise.resolve(true)
         }

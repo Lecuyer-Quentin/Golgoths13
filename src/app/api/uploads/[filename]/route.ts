@@ -33,4 +33,23 @@ export async function GET(request: Request, {params}: Params) {
     })
 }
 
+// todo : to check 
+export async function DELETE(request: Request, {params}: Params) {
+    const {bucket} = await connectToDbGridFs();
+    const filename = params.filename as string
+    if(!filename){
+        return new NextResponse(null, {status: 400, statusText: "Bad Request"})
+    }
+
+    const files = await bucket.find({filename}).toArray()
+    if(!files.length){
+        return new NextResponse(null, {status: 404, statusText: "Not Found"})
+    }
+
+    const file = files.at(0)!
+
+    await bucket.delete(file._id)
+
+    return new NextResponse(null, {status: 204, statusText: "No Content"})
+}
 
