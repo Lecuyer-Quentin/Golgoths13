@@ -4,8 +4,8 @@ import { NextResponse } from "next/server"
 export default withAuth(
     // augment the Request object with the user's token
     function middleware(req: NextRequestWithAuth) {
-        console.log('middleware', req.nextUrl.pathname)
-        console.log('middleware', req.nextauth.token)
+        //console.log('middleware', req.nextUrl.pathname)
+        //console.log('middleware', req.nextauth.token)
 
         // only admin/editor users can access the dashboard
         if(req.nextUrl.pathname.startsWith('/page/dashboard')
@@ -44,6 +44,7 @@ export const config = {
         '/page/dashboard/teams',
         '/page/dashboard/settings',
         '/page/dashboard/help',
+        '/page/profile',
 
     ],
 }
