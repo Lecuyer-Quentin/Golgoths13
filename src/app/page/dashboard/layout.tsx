@@ -17,7 +17,9 @@ export default function DashLayout({
             <Sidebar />
         <div className='flex flex-col w-full h-full text-gray-800'>
             <Navbar />
+            <div className='flex flex-col w-full px-6 py-8 md:px-8'>
             {children}
+            </div>
         </div>
     </div>
   )
