@@ -4,7 +4,6 @@ import { useState } from "react";
 import { CardWrapper } from "./cardWrapper";
 import { useForm } from "react-hook-form";
 import {zodResolver} from '@hookform/resolvers/zod'
-import * as z from "zod";
 import { LoginSchema, LoginSchemaType } from "@/models/login";
 import FormError from "./formError";
 import FormSuccess from "./formSuccess";
@@ -52,8 +51,8 @@ export const LoginForm = () => {
                     type="email"
                     value = {form.watch('email')}
                     placeholder="Enter your email"
-                    required
-                    disabled={isPending}
+                    isRequired
+                    isDisabled={isPending}
                     errorMessage={form.formState.errors.email?.message}
                     {...form.register('email')}
                 />
@@ -62,8 +61,8 @@ export const LoginForm = () => {
                     type="password"
                     placeholder="***********"
                     value={form.watch('password')}
-                    required
-                    disabled={isPending}
+                    isRequired
+                    isDisabled={isPending}
                     errorMessage={form.formState.errors.password?.message}
                     {...form.register('password')}
                 />
@@ -73,7 +72,7 @@ export const LoginForm = () => {
                 <Button 
                     type="submit" 
                     className="bg-yellow-400"
-                    disabled={isPending}
+                    isDisabled={isPending}
                 >
                     Login
                 </Button>
