@@ -8,8 +8,8 @@ import BackButton from "./backButton";
 interface CardWrapperProps {
     children: React.ReactNode;
     headerLabel: string;
-    backButtonLabel: string;
-    backButtonHref: string;
+    backButtonLabel?: string;
+    backButtonHref?: string;
     showSocial?: boolean;
 }
 
@@ -29,10 +29,12 @@ export const CardWrapper = ({
                 <CardFooter>    
                     <Social />
                 </CardFooter>
-            )}   
+            )}
+            {backButtonHref && backButtonLabel && (
             <CardFooter className="flex justify-center">
                 <BackButton label={backButtonLabel} href={backButtonHref}/>
-            </CardFooter>             
+            </CardFooter>    
+            )}         
         </Card>
     )
 }
