@@ -138,6 +138,7 @@ export default function UpdateArticle({ article }: Props) {
 
 
             await updateArticle(formData)
+            
             resetState();
             onOpenChange();
             window.location.reload();

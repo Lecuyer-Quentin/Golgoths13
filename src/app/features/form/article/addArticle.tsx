@@ -4,8 +4,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import { useEffect, useState, ChangeEventHandler, useMemo, useCallback, MouseEventHandler} from "react";
 import Images from "next/image";
 import { MdDeleteForever } from "react-icons/md";
-import { Article } from "../../../../../types";
-import { createArticle } from "../../../../libs/articles";
+import { createArticle } from "@/libs/articles";
 import axios from "axios";
 import { useRef } from "react";
 import { RiArticleFill } from "react-icons/ri";
@@ -26,6 +25,7 @@ export default function AddArticle() {
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -38,6 +38,8 @@ export default function AddArticle() {
     const [previewImages, setPreviewImages] = useState<string[]>([]);
     const [images, setImages] = useState<string[]>([]);
 
+    const defaultImage = '/images/default.jpg';
+
     const canSubmit = () => {
         return (
             title !== '' &&
@@ -49,12 +51,6 @@ export default function AddArticle() {
         )
 
     }
-
-   // useEffect(() => {
-   //     return () => {
-   //         previewImages.forEach(item => URL.revokeObjectURL(item)); 
-   //         coverPreview.forEach(item => URL.revokeObjectURL(item));
-   // }}, [ coverPreview, previewImages ])
     
     const handleTitleChange : ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
         setTitle(e.target.value);
@@ -112,21 +108,21 @@ export default function AddArticle() {
 
             const formDataImages = new FormData();
             const imagesFile = Array.from(refImages.current?.files ?? []);
-            imagesFile.forEach(file => formDataImages.append(file.name, file));
+            {imagesFile && imagesFile.forEach(file => formDataImages.append('images', file))}
             const coverFile = Array.from(refCover.current?.files ?? []);
-            coverFile.forEach(file => formDataImages.append('cover', file));
+            {coverFile && coverFile.forEach(file => formDataImages.append('cover', file))}
 
-            await axios.post('/api/upload', formDataImages);
+             await axios.post('/api/upload', formDataImages);
 
             const formData = new FormData();
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('content', content);
                 {tags && tags.forEach(tag => formData.append('tags', tag));}
-                formData.append('cover', cover[0]);
+                {cover && cover.forEach(cover => formData.append('cover', cover));}
                 {images && images.forEach(image => formData.append('images', image));}
                 
-            await createArticle(formData)
+            await createArticle(formData);
 
             resetState();
             onOpenChange();
@@ -314,7 +310,7 @@ export default function AddArticle() {
                     <Button 
                         color={canSubmit() ? 'success' : 'danger'}
                         onClick={handleAddArticle}
-                        disabled={!canSubmit()}
+                        //disabled={!canSubmit()}
                         isLoading={isLoading}
                     >
                         {renderTextButton()}
