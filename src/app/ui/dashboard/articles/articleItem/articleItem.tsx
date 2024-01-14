@@ -14,11 +14,13 @@ type Props = {
     }
 
 export default function ArticleItem({ article }: Props) {
+    const [active, setActive] = useState(false);
+
+    if (!article) return null;
 
     const { title, description, tags, cover, images, content} = article;
     const URL = `/page/articles/${article._id}`
 
-    const [active, setActive] = useState(false);
     
     const renderArticleTags = (
         <div className='flex flex-row justify-start items-center'>
@@ -49,7 +51,8 @@ export default function ArticleItem({ article }: Props) {
         </div>
     )}
 
-    const renderArticleImages = (
+    const renderArticleImages = () => {
+        return(
         <div className='mx-2 flex flex-row justify-start items-center flex-wrap gap-2'>
             {images.map((image, index) => {
                 return (
@@ -61,10 +64,14 @@ export default function ArticleItem({ article }: Props) {
                         height={50}
                         className='rounded-md'
                     />
-                )
-            })}
+                );
+            }
+            )}
         </div>
     )
+        }
+
+
 
         const renderArticleContent = (content: string) => {
             const paragraphs = content.split('\n');
@@ -94,15 +101,15 @@ export default function ArticleItem({ article }: Props) {
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Tags: </span> 
-                {tags ? renderArticleTags : <p>No tags</p>}
+                {tags.length > 0 ? renderArticleTags : <p>No tags</p>}
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Cover: </span> 
-                {cover ? renderArticleCover() : <p>No cover</p>}
+                {cover.length > 0 ? renderArticleCover() : <p>No cover</p>}
             </div>
             <div className='flex flex-row justify-start items-start'>
                 <span className='font-bold'>Images: </span> 
-                {images ? renderArticleImages : <p>No images</p>}
+                {images.length > 0 ? renderArticleImages() : <p className='text-black'>No images</p>}
             </div>
             
         </div>
@@ -116,7 +123,7 @@ export default function ArticleItem({ article }: Props) {
             </Tooltip>
             </div>
             
-                {renderArticleContent(content)}
+                {content ? renderArticleContent(content) : <p>No content</p>}
         </div>
         <div className='w-full flex flex-row justify-end items-center'>
             <Tooltip content='View article' className='text-yellow-500' placement='top'>
