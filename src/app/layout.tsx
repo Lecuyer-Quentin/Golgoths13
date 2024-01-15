@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './ui/globals.css'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { Providers } from './providers';
+import { Providers } from './context/providers';
 import Footer from './ui/layout/footer/footer';
 import Header from './ui/layout/header/header';
 

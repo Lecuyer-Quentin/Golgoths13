@@ -1,5 +1,5 @@
 import ArticlesList from '@/app/ui/dashboard/articles/articlesList'
-import AddArticle from '@/app/features/form/article/addArticle'
+import AddArticle from '@/app/features/article/addArticle'
 
 export default function ArticlesPage() {
   return (
