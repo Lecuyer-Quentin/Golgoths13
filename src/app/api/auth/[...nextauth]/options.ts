@@ -1,12 +1,10 @@
-import type { NextAuthOptions } from 'next-auth'
+import type { NextAuthOptions, User } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import { GithubProfile } from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import { GoogleProfile } from 'next-auth/providers/google'
-import { Providers } from '@/app/providers'
-import { fetchToSignIn } from '@/libs/auth'
-import { User } from '../../../../../types'
+import { fetchToSignIn, fetchToSignUp } from '@/libs/auth'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -36,24 +34,17 @@ export const options: NextAuthOptions = {
                 password: {  label: "Password: ", type: "password", placeholder: "***********" }
             },
             async authorize(credentials) {
-                // Add logic here to look up the user from the credentials supplied
-                // You can also use the `req` object to obtain additional parameters
 
-                const user = { id: '1', email: 'quentin.lecuyer@test.com', password: 'test', role: 'admin', name: 'Quentin Lecuyer' }
-                if (credentials?.email === user.email && credentials?.password === user.password) {
-                    // Any object returned will be saved in `user` property of the JWT
+                const res = await fetchToSignUp(credentials as { email: string, password: string })
+                const user = res.user
+                if (user) {
+                    console.log('user', user)
                     return user
                 } else {
-                    // If you return null or false then the credentials will be rejected
                     return null
-                    // You can also Reject this callback with an Error or with a URL:
-                    // throw new Error('error message') // Redirect to error page
-                    // throw '/path/to/redirect'        // Redirect to a URL
                 }
             }
-
-        }),
-           
+        })
     ],
     pages: {
        // signIn: '/page/auth/login',
@@ -76,38 +67,22 @@ export const options: NextAuthOptions = {
             if (account?.provider === 'google') {
                 user.name = (profile as GoogleProfile).name
                 user.image = (profile as GoogleProfile).picture
-                user.role = 'user'
                 fetchToSignIn(user)
          
             }
             if(account?.provider === 'github'){
                 user.name = (profile as GithubProfile).name
                 user.image = (profile as GithubProfile).avatar_url
-                user.role = 'user'
                 fetchToSignIn(user)
             }
 
             if(account?.provider === 'credentials'){
-                //user.email = credentials.email
-                //user.role = 'user'
                 fetchToSignIn(user)
             }
             return Promise.resolve(true)
         }
     },
     }
-    // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
-    // https://next-auth.js.org/schemas/adapters
-    // database: process.env.DATABASE_URL,
-    // database: {
-    //     type: 'mongodb',
-    //     url: process.env.DATABASE_URL,
-    //     useNewUrlParser: true,
-    //     useUnifiedTopology: true,
-    //     ssl: true,
-    //     retryWrites: true,
-    // },
-    
 
 export default options
 
