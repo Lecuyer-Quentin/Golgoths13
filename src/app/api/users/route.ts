@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest  } from "next/server";
-import { connectToDb } from "../../../libs/mongo";
-import User from "../../../models/user";
-import { hashPassword } from "@/libs/bcrypt";
+import { connectToDb } from "@/libs/mongo";
+import User from "@/models/user";
+import { hashPassword, comparePassword } from "@/libs/bcrypt";
 
 
 export async function GET(request: Request) {
@@ -30,10 +30,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "User already exists" }, { status: 422 });
         }
         const hashedPassword = await hashPassword(password);
-        await User.create({ email, hashedPassword, name, avatar, lastName, username, role });
+        await User.create({ email, password: hashedPassword, name, avatar, lastName, username, role });
         return NextResponse.json({ message: "User created" }, { status: 201 });
     } catch (error) {
         console.error('Error in POST method:', error);
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 }
+
