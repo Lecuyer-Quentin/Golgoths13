@@ -20,7 +20,7 @@ export async function fetchToSignIn( user : User ){
 
 export async function fetchToSignUp( credentials : { email: string, password: string }){
     try{
-        const res = await fetch(`${process.env.API_URL}/users/sign-up`, {
+        const res = await fetch(`${process.env.API_URL}/auth/sign-up`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
