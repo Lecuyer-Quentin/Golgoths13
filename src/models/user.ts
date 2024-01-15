@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose"
 
 const userSchema: Schema = new Schema(
     {
-        username: { type: String, unique: true , default: 'User'},
+        username: { type: String , default: 'User'},
         name: { type: String, default: ''},
         lastName: { type: String, default: ''},
         password: { type: String, unique: true },
