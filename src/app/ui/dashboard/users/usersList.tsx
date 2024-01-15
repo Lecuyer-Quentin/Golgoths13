@@ -2,7 +2,7 @@
 
 import { getSortedUsers } from '@/libs/users';
 import { useEffect, useMemo, useState, useCallback } from 'react'
-import { User as UserType } from '../../../../../../types';
+import { User as UserType } from '../../../../../types';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Button} from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa6";
 import { MdDeleteForever, MdOutlineSystemUpdateAlt } from "react-icons/md";
@@ -19,7 +19,7 @@ import {
     SortDescriptor
   } from "@nextui-org/react";
 import Error from '@/app/ui/error/error';
-import AddUser from '@/app/features/form/user/addUser';
+import AddUser from '@/app/features/user/addUser';
 
   const columns = [
     //{name: "ID", uid: "_id"},

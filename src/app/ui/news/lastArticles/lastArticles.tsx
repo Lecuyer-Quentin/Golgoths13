@@ -2,9 +2,10 @@
 
 import { use, useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
-import CarrouselSm from '../../components/carrousel/carrouselSm';
+import CarrouselSm from '@/app/components/carrousel/carrouselSm';
 import Link from 'next/link';
-import Error from '../../error/error';
+import Error from '@/app/ui/error/error';
+import { Article } from '@../../../types';
 
 export default function LastArticles() {
     const [lastArticlesData, setLastArticlesData] = useState([]);
@@ -17,6 +18,10 @@ export default function LastArticles() {
         setIsLoading(true);
         getSortedArticlesData()
             .then((res) => {
+              res = res.filter((article : Article) => {
+                return article.tags && article.tags.includes('#article');
+              });
+
                 //res = res.slice(0, 5);
                 setLastArticlesData(res);
                 setIsLoading(false);

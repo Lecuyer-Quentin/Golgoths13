@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
-import CarrouselSm from '../../components/carrousel/carrouselSm';
+import CarrouselSm from '@/app/components/carrousel/carrouselSm';
 import Link from 'next/link';
-import Error from '../../error/error';
+import Error from '@/app/ui/error/error';
+import { Article } from '@../../../types';
 
 export default function LastVideo() {
     const [lastVideoData, setLastVideoData] = useState([]);
@@ -17,6 +18,9 @@ export default function LastVideo() {
         setIsLoading(true);
         getSortedArticlesData()
             .then((res) => {
+                res = res.filter((article : Article) => {
+                    return article.tags && article.tags.includes('#video');
+                });
                 //res = res.slice(0, 5);
                 setLastVideoData(res);
                 setIsLoading(false);

@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
-import Carrousel from '../../components/carrousel/carrousel';
-import Error from '../../error/error';
+import Carrousel from '@/app/components/carrousel/carrousel';
+import Error from '@/app/ui/error/error';
 import { useCallback, useRef } from 'react';
 
 export default function Hero() {

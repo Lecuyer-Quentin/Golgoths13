@@ -4,12 +4,13 @@ import {  Navbar,   NavbarBrand,   NavbarContent,   NavbarItem,   NavbarMenuTogg
 import { Link, Button } from "@nextui-org/react";
 import { useState } from "react";
 import Image from "next/image";
-import AvatarProfile from "../../components/user/avatarProfile";
+import AvatarProfile from "../../../components/user/avatarProfile";
 import Logo from "../../../../../public/logos/g13_logo.png";
-import { LoginButton } from "../../auth/loginButton";
+import { LoginButton } from "../../../components/form/loginButton";
 import { forEach } from "@/app/utils/forEach";
 import { useSession } from "next-auth/react";
 import { User } from "next-auth";
+import { RegisterButton } from "@/app/components/form/registerButton";
 
 
 type MenuItem = {
@@ -29,7 +30,7 @@ export default function Header( ) {
     const [active, setActive] = useState(false);
     const toggleActive = () => setActive(!active);
     const {data: session, status} = useSession();
-    const user = session?.user as User;
+    const user = session?.user as User 
     const role = session?.role as string;
 
     const renderMenu = () => {
@@ -51,6 +52,24 @@ export default function Header( ) {
         }})
     }
 
+    const renderAuthBtn = () => {
+        return (
+            <>
+                <LoginButton mode="modal">Login</LoginButton>
+                <RegisterButton mode="modal">Register</RegisterButton>
+            </>
+        )
+    }
+
+
+    const renderAuth = () => {
+        return (
+                session
+                    ? <AvatarProfile user={user} role={role} />
+                    : renderAuthBtn()
+                
+        )
+    }
   return (
     <header className="w-full px-2 py-2 bg-black">
         <Navbar
@@ -77,10 +96,7 @@ export default function Header( ) {
 
             <NavbarContent justify="end" className="flex-none">  
                 <NavbarItem className="flex-none">
-                    {session
-                        ? <AvatarProfile user={user} role={role} />
-                        : <LoginButton mode="modal">Login</LoginButton>
-                    }
+                    {renderAuth()}
                 </NavbarItem>
             </NavbarContent>
 

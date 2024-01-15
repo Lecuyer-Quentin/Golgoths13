@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
-import Table from '../../components/table/table';
+import Table from '../../../components/table/table';
 import Error from '../../error/error';
 
 export default function LastNews() {

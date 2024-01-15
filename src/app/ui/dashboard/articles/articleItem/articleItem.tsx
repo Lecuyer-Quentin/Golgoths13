@@ -1,7 +1,7 @@
 import { Tooltip } from '@nextui-org/react';
-import { Article } from '../../../../../../types';
-import DeleteArticle from '../../../../features/form/article/deleteArticle';
-import UpdateArticle from '../../../../features/form/article/updateArticle';
+import { Article } from '@../../../types';
+import DeleteArticle from '@/app/features/article/deleteArticle';
+import UpdateArticle from '@/app/features/article/updateArticle';
 import Image from 'next/image';
 import { FaRegEye } from "react-icons/fa6";
 import Link from 'next/link';

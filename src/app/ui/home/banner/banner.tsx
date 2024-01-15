@@ -1,11 +1,11 @@
 'use client'
 
-import Card from '../../components/card/card';
+import Card from '@/app/components/card/card';
 import { Suspense, useEffect, useState } from 'react';
-import { Article } from "../../../../../types";
+import { Article } from "@../../../types";
 import { getSortedArticlesData } from '@/libs/articles';
-import Error from '../../error/error';
-import { forEach } from '../../../utils/forEach';
+import Error from '@/app/ui/error/error';
+import { forEach } from '@/app/utils/forEach';
 
 
 export default function Banner() {

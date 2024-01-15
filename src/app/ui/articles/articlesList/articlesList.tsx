@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
-import Table from '../../components/table/table';
+import Table from '../../../components/table/table';
 
 export default function ArticlesList() {
     const [articlesListData, setArticlesListData] = useState([]);
