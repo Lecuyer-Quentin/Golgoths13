@@ -3,13 +3,16 @@
 import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import Table from '../../../components/table/table';
+import Loading from '../../loading/loading';
+import Error from '../../error/error';
 
 export default function ArticlesList() {
     const [articlesListData, setArticlesListData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+
+    const fetchArticlesListData = async () => {
         getSortedArticlesData()
             .then((res) => {
                 setArticlesListData(res);
@@ -19,16 +22,19 @@ export default function ArticlesList() {
                 setError(err);
                 setIsLoading(false);
             })
+    }
+
+
+    useEffect(() => {
+        fetchArticlesListData();
     }, []);
 
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <div>Error...</div>
+    if (isLoading) return <Loading numberOfItems={3}  />
+    if (error) return <Error error={error} reset={ fetchArticlesListData } />
 
     const renderTable = () => {
       return (
-        <section>
             <Table data={articlesListData} />
-        </section>
       )
     }
   return renderTable();
