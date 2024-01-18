@@ -6,6 +6,7 @@ import { Article } from "@../../../types";
 import { getSortedArticlesData } from '@/libs/articles';
 import Error from '@/app/ui/error/error';
 import { forEach } from '@/app/utils/forEach';
+import Loading from '../../loading/loading';
 
 
 export default function Banner() {
@@ -31,23 +32,27 @@ export default function Banner() {
         fetchData();
     }, [])
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading numberOfItems={3}  />
     if (error) return <Error error={error} reset={fetchData} />
 
-    const renderContent = () => {
-        return forEach({of: bannerData, render: (article : Article) => {
+    const renderCards = () => {
+        return (
+            forEach({of: bannerData, render: (article : Article) => {
                 return <Card key={article._id} data={article} />
             }
         })
+        )
     }
 
-  return (
-    <section
-        className="w-[90%] h-auto grid grid-cols-1 gap-6 justify-items-center mt-20 mb-20
-                    md:grid-cols-2 md:gap-x-40
-                    xl:grid-cols-3 xl:gap-x-20"
-    >
-      {renderContent()}
-    </section>
-  )
+    const renderContent = () => {
+        return (
+            <div className="w-full h-auto grid grid-cols-1 gap-6 justify-items-center mt-20 mb-20
+                            md:grid-cols-2 md:gap-x-40
+                            xl:grid-cols-3 xl:gap-x-20">
+                {renderCards()}
+            </div>
+        )
+    }
+  return renderContent();
+  
 }

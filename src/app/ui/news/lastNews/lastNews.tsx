@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import Table from '../../../components/table/table';
 import Error from '../../error/error';
+import Loading from '../../loading/loading';
 
 export default function LastNews() {
     const [lastNewsData, setLastNewsData] = useState([]);
@@ -30,18 +31,15 @@ export default function LastNews() {
     }, [])
 
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading numberOfItems={4}  />
     if (error) return <Error error={error} reset={fetchData} />
 
     const renderLastNews = () => {
       return (
-        <section className="w-full">
-          <div className="flex items-center justify-start mx-4 mb-8">
-            <h2 className="text-4xl font-bold">Last News</h2>
-          </div>
+        
           <Table data={lastNewsData} />
-        </section>
-      )
+
+          )
     }
 
     return renderLastNews();

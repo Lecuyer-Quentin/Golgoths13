@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getSortedArticlesData } from '@/libs/articles'
 import Carrousel from '@/app/components/carrousel/carrousel';
 import Error from '@/app/ui/error/error';
+import Loading from '@/app/ui/loading/loading';
 import { useCallback, useRef } from 'react';
 
 export default function Hero() {
@@ -32,15 +33,13 @@ export default function Hero() {
   }, []);
 
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading numberOfItems={3}  />
     if (error) return <Error error={error} reset={fetchData} />
 
     // todo : cause error in prod if no data
     const renderCarrousel = () => {
       return (
-        <section className="w-full relative flex justify-center items-center mt-20 mb-20">
           <Carrousel data={carrouselData} />
-        </section>
       )
     }
 
