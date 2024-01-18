@@ -12,7 +12,6 @@ import { useSession } from "next-auth/react";
 import { User } from "next-auth";
 import { RegisterButton } from "@/app/components/form/registerButton";
 
-
 type MenuItem = {
     title: string;
     href: string;
@@ -20,9 +19,9 @@ type MenuItem = {
 
 const menuItems = [
     { title: "Actualités", href: "/page/news" },
-    { title: "Équipes", href: "/teams" },
-    { title: "Matchs", href: "/matchs"},
-    { title: "Club", href: "/club"},
+    { title: "Équipes", href: "/page/teams" },
+    { title: "Matchs", href: "/page/matchs"},
+    { title: "Club", href: "/page/club"},
 ];
 
 export default function Header( ) {
@@ -71,11 +70,11 @@ export default function Header( ) {
         )
     }
   return (
-    <header className="w-full px-2 py-2 bg-black">
+    <header className="w-full px-2 py-2 bg-black sticky top-0 z-50">
         <Navbar
             className="primaryColor text-yellow-400 h-12"
             aria-label="Site navigation"
-            shouldHideOnScroll={true} onMenuOpenChange={toggleActive}>
+            onMenuOpenChange={toggleActive}>
 
             <NavbarContent className="flex justify-start">
                 <NavbarMenuToggle
