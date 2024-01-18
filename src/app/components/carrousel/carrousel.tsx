@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Article } from "../../../../../types";
+import { Article } from "@./../../types";
 import Slider from "react-slick";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { forEach } from "@/app/utils/forEach";
