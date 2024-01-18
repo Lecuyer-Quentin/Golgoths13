@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRef } from "react";
 import { RiArticleFill } from "react-icons/ri";
 import { FaArrowAltCircleDown } from "react-icons/fa";
+import { RichTextEditor } from "@/app/components/editor/editor";
 
 const tagsArray = [
     {label: '#teams', value: '#teams'},
@@ -223,7 +224,7 @@ export default function AddArticle() {
             onOpenChange={onOpenChange}
             placement="top-center"
             backdrop="blur"
-            className="text-black"
+            className="w-full max-w-2xl"
         >
             <ModalContent>
                 <>
@@ -250,6 +251,7 @@ export default function AddArticle() {
                         onChange={handleContentChange}
                         required
                     />
+                    <RichTextEditor />
 
                     <Button color="success" variant="flat">
                         <Input 
@@ -310,7 +312,7 @@ export default function AddArticle() {
                     <Button 
                         color={canSubmit() ? 'success' : 'danger'}
                         onClick={handleAddArticle}
-                        //disabled={!canSubmit()}
+                        isDisabled={!canSubmit()}
                         isLoading={isLoading}
                     >
                         {renderTextButton()}
