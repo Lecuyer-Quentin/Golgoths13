@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Providers } from './context/providers';
 import Footer from './ui/layout/footer/footer';
 import Header from './ui/layout/header/header';
+import { ThemeSwitcher } from "@/app/components/theme/switcher";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,8 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body className={inter.className + ''}
+      >
         <Providers>
+          <ThemeSwitcher />
           <Header />
           {children}
           <Footer />
