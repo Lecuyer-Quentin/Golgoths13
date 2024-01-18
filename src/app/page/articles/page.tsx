@@ -10,7 +10,9 @@ export default function ArticlesPage() {
   return (
     <main className='flex flex-col w-full h-full px-20 py-10 min-h-screen'>
         <h1>Tous les articles</h1>
-        <ArticlesList />
+        <section className="w-full h-auto py-10">
+          <ArticlesList />
+        </section>
     </main>
   )
 }
