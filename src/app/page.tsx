@@ -1,11 +1,68 @@
+
 import Hero from './ui/home/hero/hero'
 import LastNews from './ui/home/lastNews/lastNews'
 import Banner from './ui/home/banner/banner'
 import Cta from './ui/home/cta/cta'
 import Link from 'next/link';
+import { getArticlesData , getSortedArticlesData } from '@/libs/articles'
+import { Article } from '../../types';
 
-export default function Home() {
+export async function generateStaticProps() {
+  const articlesData = await getArticlesData();
+  return {
+    props: {
+      articlesData
+    }
+  }
+}
+
+
+export default async function Home({articlesData} : {articlesData: Article[]}) {
   const URL_NEWS = '/page/news';
+
+  const getLastNews = async () => {
+    'use server'
+    try {
+      const data = await getSortedArticlesData();
+      const lastNewsData = data.slice(0,5);
+      return lastNewsData
+    } catch (error) {
+      return error
+    }
+  }
+
+  const getHeroData = async () => {
+    'use server'
+    try {
+      const data = await getSortedArticlesData();
+      const heroData = data.slice(0,4);
+      return heroData
+    } catch (error) {
+      return error
+    }
+  }
+
+  const getBannerData = async () => {
+    'use server'
+    try {
+      const data = await getSortedArticlesData();
+      const bannerData = data.slice(0,3);
+      return bannerData
+    } catch (error) {
+      return error
+    }
+  }
+
+  const lastNewsData = await getLastNews();
+  const heroData = await getHeroData();
+  const bannerData = await getBannerData();
+
+  const errorLastNews = lastNewsData instanceof Error ? lastNewsData : null
+  const errorHero = heroData instanceof Error ? heroData : null
+  const errorBanner = bannerData instanceof Error ? bannerData : null
+
+
+
 
 
   return (
@@ -16,11 +73,11 @@ export default function Home() {
       </section>
 
       <section className="w-full relative flex justify-center items-center mb-20">
-        <Hero />
+        <Hero data={heroData} error={errorHero} reset={getHeroData} />
       </section>
 
       <section className="w-full h-auto py-10">
-        <Banner />
+        <Banner data={bannerData} error={errorBanner} reset={getBannerData} />
       </section>
 
       <section id='lastNews' className="w-full h-auto py-10 ">
@@ -30,7 +87,8 @@ export default function Home() {
               See all
             </Link>
           </div>
-        <LastNews />
+        <LastNews data={lastNewsData} error={errorLastNews} reset={getLastNews} />
+        
       </section>
     </main>
   )
