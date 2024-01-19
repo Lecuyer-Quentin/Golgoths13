@@ -1,46 +1,26 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { getSortedArticlesData } from '@/libs/articles'
 import ArticleItem from './articleItem/articleItem';
 import { Article } from '../../../../../types';
-import Error from '@/app/ui/error/error';
 import {Accordion, AccordionItem} from "@nextui-org/react";
 import { FaExpandArrowsAlt } from "react-icons/fa";
 import { FaCompressArrowsAlt } from "react-icons/fa";
+import Error from '@/app/ui/error/error';
+
+type Props = {
+    data: Article[];
+    error: Error | null;
+    reset: () => void;
+}
 
 
+export default function ArticlesList({ data, error, reset }: Props) {
 
-
-
-
-export default function ArticlesList() {
-    const [allArticlesData, setAllArticlesData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const fetchData = () => {
-        setLoading(true);
-        getSortedArticlesData()
-            .then((res) => {
-                setAllArticlesData(res);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-                setLoading(false);
-            })
-    }
-     useEffect(() => {
-        fetchData();
-    }, [])
-
-    if (loading) return <div>Loading...</div>
-    if (error) return <Error error={error} reset={fetchData} />      
-   
+    if (error) return <Error error={error} reset={reset} />
+    
     const renderArticlesList = (
         <Accordion selectionMode='multiple' variant="splitted" className='w-full h-full'>
-            {allArticlesData.map((article: Article) => {
+            {data.map((article: Article) => {
                 return (
                     <AccordionItem key={article._id} title={article.title} 
                         style={{

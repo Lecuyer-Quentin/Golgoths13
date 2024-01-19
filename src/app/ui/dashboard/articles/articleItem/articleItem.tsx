@@ -1,3 +1,5 @@
+'use client';
+
 import { Tooltip } from '@nextui-org/react';
 import { Article } from '@../../../types';
 import DeleteArticle from '@/app/features/article/deleteArticle';

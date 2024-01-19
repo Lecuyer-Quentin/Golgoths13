@@ -1,7 +1,6 @@
 'use client'
 
-import { getSortedUsers } from '@/libs/users';
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { User as UserType } from '../../../../../types';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Button} from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa6";
@@ -22,22 +21,21 @@ import Error from '@/app/ui/error/error';
 import AddUser from '@/app/features/user/addUser';
 
   const columns = [
-    //{name: "ID", uid: "_id"},
-    //{name: "EMAIL", uid: "email"},
     {name: "NAME", uid: "name"},
     {name: "ROLE", uid: "role"},
-    //{name: "STATUS", uid: "status"},
     {name: "ACTIONS", uid: "actions"},
   ];
 
-  const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+
+  type Props = {
+    data: UserType[];
+    error: Error | null;
+    reset: () => void;
+  };
 
 
-export default function UsersList() {
-    const [allUsersData, setAllUsersData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-
+export default function UsersList({data, error, reset} : Props){
+  
     const [filterValue, setFilterValue] = useState("");
     const [selectedKey, setSelectedKey] = useState<Selection>(new Set([]));
     const [rowPerPage, setRowPerPage] = useState(5);
@@ -45,25 +43,8 @@ export default function UsersList() {
     const [page, setPage] = useState(1);
     const hasSearchFilter = Boolean(filterValue);
 
-    const fetchData = () => {
-        setIsLoading(true);
-        getSortedUsers()
-            .then((res) => {
-                setAllUsersData(res);
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-                setIsLoading(false);
-            })
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, [ ]);
-
     const filteredData = useMemo(() => {
-        let filteredUsers = [...allUsersData]
+        let filteredUsers = [...data];
         if (hasSearchFilter) {
             console.log('hasSearchFilter', hasSearchFilter)
             console.log('filterValue', filterValue)
@@ -73,7 +54,7 @@ export default function UsersList() {
         }
         return filteredUsers;
     }
-    , [filterValue, hasSearchFilter, allUsersData]);
+    , [filterValue, hasSearchFilter, data]);
 
     const pages = Math.ceil(filteredData.length / rowPerPage);
 
@@ -204,8 +185,9 @@ export default function UsersList() {
         );
       }, [ page, pages]);
 
-    if (error) return <Error error={error} reset={fetchData} />
-    if (!allUsersData) return <div>No users data</div>
+      if (!data) return <div>No users data</div>
+
+    if (error) return <Error error={error} reset={reset} />
 
     return(
         <div className="flex flex-col w-full h-full px-5 py-5 justify-center items-center border-3 border-black">
@@ -230,7 +212,7 @@ export default function UsersList() {
                         </TableColumn>
                     ))}
                 </TableHeader>
-                <TableBody emptyContent="No Users data" items={sortedItems} isLoading={isLoading}>
+                <TableBody emptyContent="No Users data" items={sortedItems}>
                     {sortedItems.map((item : UserType) => (
                         <TableRow key={item._id}>
                             {columns.map((column) => (

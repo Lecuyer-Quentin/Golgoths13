@@ -1,44 +1,22 @@
-'use client'
 
-import { useEffect, useState } from 'react'
-import { getSortedArticlesData } from '@/libs/articles'
 import Table from '../../../components/table/table';
-import Link from 'next/link';
-import Error from '../../error/error';
-import Loading from '../../loading/loading';
+import { Article } from '../../../../../types';
+import Error from '@/app/ui/error/error';
 
-export default function LastNews() {
-    const [lastNewsData, setLastNewsData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+type Props = {
+  data: Article[];
+  error : Error | null;
+  reset : () => void;
+}
 
+
+export default function LastNews({ data, error, reset }: Props) {
   
-    const fetchData = () => {
-        setIsLoading(true);
-        getSortedArticlesData()
-            .then((res) => {
-                res = res.slice(0, 5);
-                setLastNewsData(res);
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-                setIsLoading(false);
-            })
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-
-
-    if (isLoading) return <Loading numberOfItems={3}  />
-    if (error) return <Error error={error} reset={fetchData} />
+    if(error) return <Error error={error} reset={reset} />
 
     const renderLastNews = () => {
       return (
-          <Table data={lastNewsData} />
+          <Table data={data} />
       )
     }
 
