@@ -1,22 +1,35 @@
 import axios from 'axios';
 import { User } from '../../types';
 
-export async function getSortedUsers() {
-    try {
-        const res = await axios.get('/api/users');
-        const users = res.data.users;
-        const sortedUsers = users.sort((a: User, b: User) => {
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }
-        );
-        return sortedUsers;
-
-    } catch (error) {
-        console.log(error);
+export async function getUsersData(){
+    try{
+        const data = await fetch('http://localhost:3000/api/users', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const {users} = await data.json()
+        return users;
+    } catch (err){
+        console.log(err)
     }
 }
 
-export async function getUser(id: string) {
+export async function getSortedUsersData() {
+    try {
+        const users = await getUsersData()
+        const sortedUsers = users.sort((a: User, b: User) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        })
+        return sortedUsers
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export async function getUserData(id: string) {
     try {
         const res = await axios.get(`/api/users/${id}`);
         const user = res.data.user;
