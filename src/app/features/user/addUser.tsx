@@ -53,18 +53,23 @@ export default function AddUser() {
         })
         try {
             await createUser({email, password, role, username, name, lastName, avatar} as User)
-            setSuccess('User created successfully')
-
+            .then((res) => {
+                setSuccess('User created successfully')
+                form.reset()
+            })
+            .catch((err) => {
+                setError('Error creating user')
+            })
+            .finally(() => {
+                setIsLoading(false)
+                window.location.reload()
+            })
         } catch (e) {
             setError('Error creating user')
-
-        } finally {
-            form.reset()
-            setIsLoading(false)
-            window.location.reload()
         }
     }
 
+    
     return(
         <>
         <Button onPress={onOpen} color="warning" startContent={<FaPlus />}>Add User</Button>

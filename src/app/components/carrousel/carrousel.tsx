@@ -19,7 +19,7 @@ export default function Carrousel({data}:Props) {
     if(!data) return null;
     if(!data[active]) return null;
     const { _id, title, cover, description, tags } = data[active];
-    const URL = `/page/articles/${_id}`
+    const URL = `/articles/${_id}`
 
 
 

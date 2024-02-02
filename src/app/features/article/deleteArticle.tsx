@@ -1,5 +1,5 @@
 import { deleteArticle } from '@/libs/articles'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { MdDeleteSweep } from "react-icons/md";
 import { Tooltip } from '@nextui-org/react';
 import { FormWrapper } from "@/app/components/form/formWrapper";

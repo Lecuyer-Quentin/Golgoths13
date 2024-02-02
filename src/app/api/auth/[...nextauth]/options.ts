@@ -4,7 +4,8 @@ import { GithubProfile } from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import { GoogleProfile } from 'next-auth/providers/google'
-import { fetchToSignIn, fetchToSignUp } from '@/libs/auth'
+import { fetchToSignIn, fetchToSignUp, fetchToSignUpWithGoogle } from '@/libs/auth'
+import { getUserData } from '@/libs/users'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -38,7 +39,7 @@ export const options: NextAuthOptions = {
                 const res = await fetchToSignUp(credentials as { email: string, password: string })
                 const user = res.user
                 if (user) {
-                    console.log('user', user)
+                    //console.log('usertoTEst', user)
                     return user
                 } else {
                     return null
@@ -53,12 +54,19 @@ export const options: NextAuthOptions = {
     callbacks: {
         async jwt(parameters) {
             const { token, user } = parameters
-            if (user) token.role = user.role
+            if (user) {
+                token.role = user.role
+                token.id = user.id
+            }
             return Promise.resolve(token)
         },
         async session(parameters) {
             const { session, token } = parameters
-            if (session) session.role = token.role
+            if (token) {
+                session.role = token.role
+                session.user = token
+                session.id = token.id
+            }
             return Promise.resolve(session)
         },
         async signIn(parameters) {
@@ -67,17 +75,50 @@ export const options: NextAuthOptions = {
             if (account?.provider === 'google') {
                 user.name = (profile as GoogleProfile).name
                 user.image = (profile as GoogleProfile).picture
-                fetchToSignIn(user)
-         
+                user.email = (profile as GoogleProfile).email
+                user.role = (profile as GoogleProfile).role || 'user'
+                user.id = (profile as GoogleProfile).sub
+                
+                const existingUser = await getUserData(user.id)
+                console.log('existingUser', existingUser)
+                //todo add update to db
+                if (!existingUser) {
+                    await fetchToSignUpWithGoogle(user)
+                    console.log('added user', user)
+                } else {
+                    console.log('user exists', user)
+                }
             }
+
             if(account?.provider === 'github'){
                 user.name = (profile as GithubProfile).name
                 user.image = (profile as GithubProfile).avatar_url
+                user.email = (profile as GithubProfile).email
+                user.role = (profile as GithubProfile).role || 'user'
+                user.id = (profile as GithubProfile).id.toString()
                 fetchToSignIn(user)
             }
 
             if(account?.provider === 'credentials'){
-                fetchToSignIn(user)
+                //fetchToSignIn(user)
+                try {
+                    const res = await fetch(`${process.env.API_URL}/users`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(credentials),
+                    })
+                    const data = await res.json()
+                    //console.log('data', data)
+                    if (data.user) {
+                        user.role = data.user.role
+                        user.id = data.user._id
+                    }
+                } catch (error) {
+                    console.log('error', error)
+                }
+
             }
             return Promise.resolve(true)
         }

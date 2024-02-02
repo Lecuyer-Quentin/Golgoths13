@@ -26,22 +26,17 @@ export const FormWrapper = ({
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
+
             <CardBody>
                 {children}
             </CardBody>
+
             {showSocial && (
                 <CardFooter className="flex flex-col justify-center">
                     or connect with 
                     <Social />
                 </CardFooter>
-            )}
-            {backButtonLabel && (
-            <CardFooter className="flex justify-center">
-                <span className="text-sm">{backButtonLabel}</span>
-                    {showLogin && <LoginButton mode="modal">Login</LoginButton>}
-                    {showRegister && <RegisterButton mode="modal">Register</RegisterButton>}
-            </CardFooter>    
-            )}         
+            )}        
         </Card>
     )
 }

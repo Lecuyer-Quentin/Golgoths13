@@ -3,7 +3,7 @@ import { User } from '../../types';
 
 export async function getUsersData(){
     try{
-        const data = await fetch('http://localhost:3000/api/users', {
+        const data = await fetch(`http://localhost:3000/api/users`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,17 +31,41 @@ export async function getSortedUsersData() {
 
 export async function getUserData(id: string) {
     try {
-        const res = await axios.get(`/api/users/${id}`);
-        const user = res.data.user;
+        const users = await getUsersData()
+        const user = users.find((user: User) => user._id === id);
+        if (!user) {
+            console.log('No user found')
+        }
         return user;
-    } catch (error) {
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+export async function deleteUser(id: string) {
+    try {
+        const res = await fetch(`${process.env.API_URL}/users`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
+        const data = await res.json()
+        console.log(data)
+        return data;
+    }
+    catch (error) {
         console.log(error);
     }
 }
 
-export async function deleteUser(id: string) {
+
+
+export async function updateUserRole(id: string, role: string) {
     try {
-        await axios.delete(`/api/users`, { data: { id } });
+        await axios.patch('/api/users', { id, role });
     } catch (error) {
         console.log(error);
     }
@@ -69,7 +93,6 @@ export async function createUser({ email, password, name, avatar, lastName, user
         console.log(error);
     }
 }
-
 
 
 

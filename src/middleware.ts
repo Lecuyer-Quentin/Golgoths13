@@ -8,21 +8,21 @@ export default withAuth(
         //console.log('middleware', req.nextauth.token)
 
         // only admin/editor users can access the dashboard
-        if(req.nextUrl.pathname.startsWith('/page/dashboard')
+        if(req.nextUrl.pathname.startsWith('/dashboard')
             && req.nextauth.token?.role !== 'admin'
             && req.nextauth.token?.role !== 'editor'
         ) {
             return NextResponse.rewrite(
-                new URL ('/page/denied', req.url)
+                new URL ('/denied', req.url)
             )
         }
-        if(req.nextUrl.pathname.startsWith('/page/profile')
+        if(req.nextUrl.pathname.startsWith('/users')
             && req.nextauth.token?.role !== 'admin'
             && req.nextauth.token?.role !== 'editor'
             && req.nextauth.token?.role !== 'user'
         ) {
             return NextResponse.rewrite(
-                new URL ('/page/denied', req.url)
+                new URL ('/denied', req.url)
             )
         }
     },
@@ -38,13 +38,13 @@ export default withAuth(
 // Protected routes
 export const config = {
     matcher: [
-        '/page/dashboard',
-        '/page/dashboard/articles',
-        '/page/dashboard/users',
-        '/page/dashboard/teams',
-        '/page/dashboard/settings',
-        '/page/dashboard/help',
-        '/page/profile',
+        '/dashboard',
+        '/dashboard/articles',
+        '/dashboard/users',
+        '/dashboard/teams',
+        '/dashboard/settings',
+        '/dashboard/help',
+        '/users',
 
     ],
 }

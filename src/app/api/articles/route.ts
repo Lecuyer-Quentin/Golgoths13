@@ -65,6 +65,9 @@ export async function PUT(request: Request) {
 export async function DELETE(request: NextRequest) {
     try{
         const { id } = await request.json();
+        if (!id) {
+            return NextResponse.json({ message: "Id is required" }, { status: 422 });
+        }
         await connectToDb();
         const article = await Article.findByIdAndDelete(id);        
         return NextResponse.json({ message: "Article deleted", article }, { status: 200 });

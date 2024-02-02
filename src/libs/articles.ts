@@ -9,6 +9,7 @@ export async function getArticlesData () {
                 'Content-Type': 'application/json'
             }
         })
+
         const {articles} = await data.json()
         return articles;
     } catch (err){

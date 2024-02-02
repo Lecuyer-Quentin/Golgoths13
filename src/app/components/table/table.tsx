@@ -31,14 +31,13 @@ export default function Table({data}:Props){
 
 
     return (
-        <div className=" h-auto grid grid-cols-1 justify-items-center mx-auto gap-2
-                        md:grid md:grid-cols-2 md:w-[90%]
+        <div className=" h-auto flex flex-row flex-wrap justify-center items-center gap-4
+                        md:flex md:flex-row md:flex-wrap md:justify-center md:gap-x-10 md:gap-y-6
                         lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-2
-                        xl:flex xl:flex-row xl:flex-wrap xl:justify-center xl:w-[70rem] xl:gap-2
-                        2xl:flex 2xl:flex-row 2xl:flex-wrap 2xl:justify-center 2xl:w-[90rem] 2xl:gap-2
+                        2xl:flex 2xl:flex-row 2xl:flex-wrap 2xl:justify-center 2xl:gap-2
+
         ">
             {renderContent()}
         </div>
     )
 }
-

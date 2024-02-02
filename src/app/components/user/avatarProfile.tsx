@@ -1,11 +1,13 @@
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, DropdownSection, Button} from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, DropdownSection, Button} from "@nextui-org/react";
 import Link from "next/link";
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type UserProfile = {
-  user : User;
-  role : string;
+  user: User;
+  role: string;
+  id: string;
 }
 
 type MenuItem = {
@@ -15,24 +17,27 @@ type MenuItem = {
 }
 
 
-export default function AvatarProfile({user, role} : UserProfile) {
+export default function AvatarProfile({user, role, id} : UserProfile) {
+
+  const router = useRouter();
 
   if (!user) return null;
-  const { image, email, name } = user;
-  
+  const { image, email, name} = user;
+
+
   const menuItemsUser = [
-    { title: "My Profile", href: "/page/profile", key: "profile" },
+    { title: "My Profile", href: `/users/${id}`, key: "profile" },
     { title: "My Account", href: "/", key: "account" },
-    { title: "My Settings", href: "/", key: "settings" },
-    { title: "Help & Feedback", href: "/", key: "help_and_feedback" },
+    //{ title: "My Settings", href: "/", key: "settings" },
+    //{ title: "Help & Feedback", href: "/", key: "help_and_feedback" },
   ]
 
   const menuItemsAdmin = [
-    { title: "Dashboard", href: "/page/dashboard", key: "dashboard" },
-    { title: "My Profile", href: "/page/profile", key: "profile" },
+    { title: "Dashboard", href: "/dashboard", key: "dashboard" },
+    { title: "My Profile", href: `/users/${id}`, key: "profile" },
     { title: "My Account", href: "/", key: "account" },
-    { title: "My Settings", href: "/", key: "settings" },
-    { title: "Help & Feedback", href: "/", key: "help_and_feedback" },
+    //{ title: "My Settings", href: "/", key: "settings" },
+    //{ title: "Help & Feedback", href: "/", key: "help_and_feedback" },
   ]
 
   const renderUserImage = image ? (
@@ -71,6 +76,13 @@ export default function AvatarProfile({user, role} : UserProfile) {
     ) : (
       <>Name not found</>
     )
+
+    const renderUserId = id ? (
+      <>{id}</>
+    ) : (
+      <>ID not found</>
+    )
+
     
 
     const renderAdmin = () => {
@@ -78,7 +90,9 @@ export default function AvatarProfile({user, role} : UserProfile) {
         menuItemsAdmin.map((item: MenuItem) => {
           return (
             <DropdownItem key={item.key} className="h-14 gap-2" disableAnimation>
-              <Link href={item.href}>{item.title}</Link>
+              <Button onPress={() => router.push(item.href)} color="warning" variant="faded" aria-label={`${item.key} button`} className="bg-transparent border-none" disableRipple >
+                {item.title}
+              </Button>
             </DropdownItem>
           )
         })
@@ -91,7 +105,9 @@ export default function AvatarProfile({user, role} : UserProfile) {
       menuItemsUser.map((item: MenuItem) => {
         return (
           <DropdownItem key={item.key} className="h-14 gap-2">
-            <Link href={item.href}>{item.title}</Link>
+            <Button onPress={() => router.push(item.href)} color="warning" variant="faded" aria-label={`${item.key} button`} className="bg-transparent border-none" disableRipple >
+              {item.title}
+            </Button>
           </DropdownItem>
         )
       })
@@ -106,10 +122,10 @@ export default function AvatarProfile({user, role} : UserProfile) {
           {renderUserImage}
         </DropdownTrigger>
 
-        <DropdownMenu aria-label="Profile Actions" variant="light" >
-          <DropdownItem key="profile" className="h-14 gap-2">
+        <DropdownMenu aria-label="Profile Actions" variant="light">
+
+          <DropdownItem key="profile" className="h-14 gap-4 ml-3">
             <p className="font-semibold">Welcome {renderUserName}</p>
-            {renderUserEmail}
             {renderUserRoles}
           </DropdownItem>
 
@@ -119,7 +135,7 @@ export default function AvatarProfile({user, role} : UserProfile) {
 
           
           <DropdownItem key="signOut">
-            <Button onClick={() => signOut()} color="danger" variant="faded" aria-label="Sign out button" className="bg-transparent border-none" disableRipple >
+            <Button onPress={() => signOut()} color="danger" variant="faded" aria-label="Sign out button" className="bg-transparent border-none" disableRipple >
               Sign Out
             </Button>
           

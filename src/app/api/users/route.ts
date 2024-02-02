@@ -1,10 +1,10 @@
-import { NextResponse, NextRequest  } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDb } from "@/libs/mongo";
 import User from "@/models/user";
-import { hashPassword, comparePassword } from "@/libs/bcrypt";
+import { hashPassword } from "@/libs/bcrypt";
 
 
-export async function GET(request: Request) {
+export async function GET() {
     try {
         await connectToDb();
         const users = await User.find();
@@ -25,9 +25,9 @@ export async function POST(request: Request) {
     }
     try{
         await connectToDb();
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return NextResponse.json({ message: "User already exists" }, { status: 422 });
+        const user = await User.findOne({ email });
+        if (user) {
+            return NextResponse.json({ message: "User already exists", user }, { status: 422 });
         }
         const hashedPassword = await hashPassword(password);
         await User.create({ email, password: hashedPassword, name, avatar, lastName, username, role });
@@ -37,4 +37,39 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 }
+
+export async function PATCH (request: Request) {
+    const { id, role } = await request.json();
+    if (!id || !role) {
+        return NextResponse.json({ message: "Id and Role are required" }, { status: 422 });
+    }
+    try {
+        await connectToDb();
+        await User.findByIdAndUpdate(id, { role });
+        return NextResponse.json({ message: "User updated" }, { status: 200 });
+    } catch (error) {
+        console.error('Error in PATCH method:', error);
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    }
+}
+
+export async function DELETE (request: NextRequest) {
+    
+    try {
+        const { id } = await request.json();
+        if (!id) {
+            return NextResponse.json({ message: "Id is required" }, { status: 422 });
+        }
+        await connectToDb();
+        const user = await User.findByIdAndDelete(id);
+        if (!user) {
+            return NextResponse.json({ message: "User not found" }, { status: 404 });
+        }
+        return NextResponse.json({ message: "User deleted" }, { status: 200 });
+    } catch (error) {
+        console.error('Error in DELETE method:', error);
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    }
+}
+
 

@@ -134,8 +134,7 @@ export default function UpdateArticle({ article }: Props) {
                     ? updateImages.forEach(image => formData.append('images', image))
                     : images.forEach(image => formData.append('images', image))
                 }
-                formData.append('tags', newTags.length > 0 ? newTags.toString() : tags.toString());
-
+                {newTags.length > 0 && newTags.forEach(tag => formData.append('tags', tag))}
 
             await updateArticle(formData)
             

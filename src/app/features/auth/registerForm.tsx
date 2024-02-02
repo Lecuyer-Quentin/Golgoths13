@@ -132,9 +132,9 @@ export const RegisterForm = () => {
         <>
         <FormWrapper
             headerLabel='Welcome to our community!'
-            backButtonLabel="Already have an account ?"
-            showSocial={true}
-            showLogin={true}
+           // backButtonLabel="Already have an account ?"
+           // showSocial={true}
+           // showLogin={true}
 
         >
             <form
@@ -177,8 +177,10 @@ export const RegisterForm = () => {
                 <Spacer y={1} />
                 {renderPasswordConfirmation()}
                 <Spacer y={1} />
+
                 {error && <FormError message={error} />}
                 {success && <FormSuccess message={success} />}
+
                 <Button
                     type="submit"
                     color="primary"

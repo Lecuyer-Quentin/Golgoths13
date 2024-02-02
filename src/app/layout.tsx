@@ -4,9 +4,10 @@ import './ui/globals.css'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { Providers } from './context/providers';
-import Footer from './ui/layout/footer/footer';
-import Header from './ui/layout/header/header';
-import { ThemeSwitcher } from "@/app/components/theme/switcher";
+import Footer from './ui/layout/footer';
+import Header from './ui/layout/header';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,9 +27,8 @@ export default function RootLayout({
       <body className={inter.className + ''}
       >
         <Providers>
-          <ThemeSwitcher />
           <Header />
-          {children}
+            {children}
           <Footer />
         </Providers>
       </body>
